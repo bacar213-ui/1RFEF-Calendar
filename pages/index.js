@@ -114,23 +114,21 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {[1, 2].map(g => {
               const eq = GRUPOS[g].equipos;
-              // Marco: 7 arriba, col-der 3 medios, 7 abajo (invertido), col-izq 3 medios
-              const marco = [
-                ...eq.slice(0, 7),        // fila superior izq→der
-                ...eq.slice(7, 10),       // columna derecha arriba→abajo
-                ...eq.slice(10, 17).reverse(), // fila inferior der→izq
-                ...eq.slice(17, 20).reverse(), // columna izquierda abajo→arriba
-              ];
-              // Posiciones en grid 7 columnas x 5 filas
               const posiciones = [
-                // Fila superior (fila 1, col 1-7)
-                [1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],
-                // Columna derecha (fila 2-4, col 7)
-                [2,7],[3,7],[4,7],
-                // Fila inferior (fila 5, col 7-1)
-                [5,7],[5,6],[5,5],[5,4],[5,3],[5,2],[5,1],
-                // Columna izquierda (fila 4-2, col 1)
-                [4,1],[3,1],[2,1],
+                // Fila superior (fila 1, col 1-11) = 11 escudos
+                [1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],[1,8],[1,9],[1,10],[1,11],
+                // Columna derecha (fila 2-8, col 11) = 7 escudos
+                [2,11],[3,11],[4,11],[5,11],[6,11],[7,11],[8,11],
+                // Fila inferior (fila 9, col 11-1) = 11 escudos
+                [9,11],[9,10],[9,9],[9,8],[9,7],[9,6],[9,5],[9,4],[9,3],[9,2],[9,1],
+                // Columna izquierda (fila 8-2, col 1) = 7 escudos
+                [8,1],[7,1],[6,1],[5,1],[4,1],[3,1],[2,1],
+              ];
+              const escudosMarco = [
+                ...eq.slice(0, 11),
+                ...eq.slice(11, 18),
+                ...eq.slice(18, 20), ...eq.slice(0, 9),
+                ...eq.slice(9, 16),
               ];
               return (
                 <button
@@ -145,19 +143,18 @@ export default function Home() {
                     transition: 'opacity 0.15s, transform 0.15s',
                     position: 'relative',
                     overflow: 'hidden',
-                    minHeight: 240,
+                    minHeight: 160,
                     padding: 0,
                   }}
                   onMouseOver={ev => { ev.currentTarget.style.opacity = '0.88'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
                   onMouseOut={ev => { ev.currentTarget.style.opacity = '1'; ev.currentTarget.style.transform = 'scale(1)'; }}
                 >
-                  {/* Marco de escudos */}
                   <div style={{
                     position: 'absolute',
                     inset: 0,
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(7, 1fr)',
-                    gridTemplateRows: 'repeat(5, 1fr)',
+                    gridTemplateColumns: 'repeat(11, 1fr)',
+                    gridTemplateRows: 'repeat(9, 1fr)',
                     padding: 4,
                     gap: 2,
                     pointerEvents: 'none',
@@ -165,7 +162,7 @@ export default function Home() {
                     {posiciones.map(([fila, col], i) => (
                       <img
                         key={i}
-                        src={`/escudos/${marco[i].escudo}`}
+                        src={`/escudos/${escudosMarco[i].escudo}`}
                         alt=""
                         style={{
                           gridRow: fila,
@@ -178,8 +175,7 @@ export default function Home() {
                       />
                     ))}
                   </div>
-                  {/* Texto encima */}
-                  <div style={{ position: 'relative', zIndex: 1, padding: '3.5rem 1rem' }}>
+                  <div style={{ position: 'relative', zIndex: 1, padding: '2.5rem 1rem' }}>
                     <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.75, marginBottom: 8 }}>1ª RFEF</div>
                     <div style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.5px' }}>Grupo {g}</div>
                     <div style={{ fontSize: 12, opacity: 0.7, marginTop: 8 }}>20 equipos</div>
