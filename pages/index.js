@@ -114,16 +114,6 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {[1, 2].map(g => {
               const eq = GRUPOS[g].equipos;
-              const posiciones = [
-                // Fila superior (fila 1, col 1-7) = 7 escudos
-                [1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],
-                // Columna derecha (fila 2-4, col 7) = 3 escudos
-                [2,7],[3,7],[4,7],
-                // Fila inferior (fila 5, col 7-1) = 7 escudos
-                [5,7],[5,6],[5,5],[5,4],[5,3],[5,2],[5,1],
-                // Columna izquierda (fila 4-2, col 1) = 3 escudos
-                [4,1],[3,1],[2,1],
-              ];
               return (
                 <button
                   key={g}
@@ -147,25 +137,18 @@ export default function Home() {
                     position: 'absolute',
                     inset: 0,
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(7, 1fr)',
-                    gridTemplateRows: 'repeat(5, 1fr)',
-                    padding: 4,
-                    gap: 2,
+                    gridTemplateColumns: 'repeat(5, 1fr)',
+                    gridTemplateRows: 'repeat(4, 1fr)',
+                    padding: 6,
+                    gap: 4,
                     pointerEvents: 'none',
                   }}>
-                    {posiciones.map(([fila, col], i) => (
+                    {eq.map((e, i) => (
                       <img
                         key={i}
-                        src={`/escudos/${eq[i].escudo}`}
+                        src={`/escudos/${e.escudo}`}
                         alt=""
-                        style={{
-                          gridRow: fila,
-                          gridColumn: col,
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'contain',
-                          opacity: 0.3,
-                        }}
+                        style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.25 }}
                       />
                     ))}
                   </div>
@@ -180,7 +163,6 @@ export default function Home() {
           </div>
         </>
       )}
-
       {grupo && !seleccionado && (
         <>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
