@@ -145,7 +145,7 @@ export default function Home() {
                     transition: 'opacity 0.15s, transform 0.15s',
                     position: 'relative',
                     overflow: 'hidden',
-                    minHeight: 180,
+                    minHeight: 240,
                     padding: 0,
                   }}
                   onMouseOver={ev => { ev.currentTarget.style.opacity = '0.88'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
@@ -179,7 +179,7 @@ export default function Home() {
                     ))}
                   </div>
                   {/* Texto encima */}
-                  <div style={{ position: 'relative', zIndex: 1, padding: '2.5rem 1rem' }}>
+                  <div style={{ position: 'relative', zIndex: 1, padding: '3.5rem 1rem' }}>
                     <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.75, marginBottom: 8 }}>1ª RFEF</div>
                     <div style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.5px' }}>Grupo {g}</div>
                     <div style={{ fontSize: 12, opacity: 0.7, marginTop: 8 }}>20 equipos</div>
