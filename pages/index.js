@@ -112,27 +112,81 @@ export default function Home() {
             Elige tu grupo
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-            {[1, 2].map(g => (
-              <button
-                key={g}
-                onClick={() => setGrupo(g)}
-                style={{
-                  background: GRUPOS[g].color,
-                  border: 'none',
-                  borderRadius: 12,
-                  padding: '2.5rem 1rem',
-                  cursor: 'pointer',
-                  color: '#fff',
-                  transition: 'opacity 0.15s, transform 0.15s',
-                }}
-                onMouseOver={ev => { ev.currentTarget.style.opacity = '0.88'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
-                onMouseOut={ev => { ev.currentTarget.style.opacity = '1'; ev.currentTarget.style.transform = 'scale(1)'; }}
-              >
-                <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.75, marginBottom: 8 }}>1ª RFEF</div>
-                <div style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.5px' }}>Grupo {g}</div>
-                <div style={{ fontSize: 12, opacity: 0.7, marginTop: 8 }}>20 equipos</div>
-              </button>
-            ))}
+            {[1, 2].map(g => {
+              const eq = GRUPOS[g].equipos;
+              // Marco: 7 arriba, col-der 3 medios, 7 abajo (invertido), col-izq 3 medios
+              const marco = [
+                ...eq.slice(0, 7),        // fila superior izq→der
+                ...eq.slice(7, 10),       // columna derecha arriba→abajo
+                ...eq.slice(10, 17).reverse(), // fila inferior der→izq
+                ...eq.slice(17, 20).reverse(), // columna izquierda abajo→arriba
+              ];
+              // Posiciones en grid 7 columnas x 5 filas
+              const posiciones = [
+                // Fila superior (fila 1, col 1-7)
+                [1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],
+                // Columna derecha (fila 2-4, col 7)
+                [2,7],[3,7],[4,7],
+                // Fila inferior (fila 5, col 7-1)
+                [5,7],[5,6],[5,5],[5,4],[5,3],[5,2],[5,1],
+                // Columna izquierda (fila 4-2, col 1)
+                [4,1],[3,1],[2,1],
+              ];
+              return (
+                <button
+                  key={g}
+                  onClick={() => setGrupo(g)}
+                  style={{
+                    background: GRUPOS[g].color,
+                    border: 'none',
+                    borderRadius: 12,
+                    cursor: 'pointer',
+                    color: '#fff',
+                    transition: 'opacity 0.15s, transform 0.15s',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    minHeight: 180,
+                    padding: 0,
+                  }}
+                  onMouseOver={ev => { ev.currentTarget.style.opacity = '0.88'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
+                  onMouseOut={ev => { ev.currentTarget.style.opacity = '1'; ev.currentTarget.style.transform = 'scale(1)'; }}
+                >
+                  {/* Marco de escudos */}
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(7, 1fr)',
+                    gridTemplateRows: 'repeat(5, 1fr)',
+                    padding: 4,
+                    gap: 2,
+                    pointerEvents: 'none',
+                  }}>
+                    {posiciones.map(([fila, col], i) => (
+                      <img
+                        key={i}
+                        src={`/escudos/${marco[i].escudo}`}
+                        alt=""
+                        style={{
+                          gridRow: fila,
+                          gridColumn: col,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'contain',
+                          opacity: 0.3,
+                        }}
+                      />
+                    ))}
+                  </div>
+                  {/* Texto encima */}
+                  <div style={{ position: 'relative', zIndex: 1, padding: '2.5rem 1rem' }}>
+                    <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.75, marginBottom: 8 }}>1ª RFEF</div>
+                    <div style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.5px' }}>Grupo {g}</div>
+                    <div style={{ fontSize: 12, opacity: 0.7, marginTop: 8 }}>20 equipos</div>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </>
       )}
