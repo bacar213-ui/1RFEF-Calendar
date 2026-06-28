@@ -175,7 +175,7 @@ export default function Home() {
             background: `linear-gradient(135deg, ${seleccionado.c1} 0%, ${seleccionado.c2} 100%)`,
             borderRadius: 8,
             padding: '14px 16px',
-            marginBottom: '1.25rem',
+            marginBottom: '1.5rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between'
@@ -188,6 +188,80 @@ export default function Home() {
                 1ª RFEF · Grupo {grupo} · 2026/27
               </div>
             </div>
+            <button
+              onClick={() => setSeleccionado(null)}
+              style={{ background: 'rgba(0,0,0,0.2)', border: 'none', borderRadius: 6, cursor: 'pointer', color: '#fff', fontSize: 13, padding: '4px 10px' }}
+            >
+              ← Volver
+            </button>
+          </div>
+
+          {/* Paso 1 */}
+          <div style={{ display: 'flex', gap: 14, marginBottom: '1.25rem', alignItems: 'flex-start' }}>
+            <div style={{ width: 28, height: 28, borderRadius: '50%', background: GRUPOS[grupo].color, color: '#fff', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>1</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#111', marginBottom: 8 }}>Copia tu enlace de calendario</div>
+              <div style={{ background: '#f5f5f5', borderRadius: 8, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ flex: 1, fontFamily: 'monospace', fontSize: 11, color: '#555', wordBreak: 'break-all' }}>{icalUrl}</span>
+                <button onClick={copiar} style={{ background: '#fff', border: '1px solid #ccc', borderRadius: 6, padding: '5px 10px', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                  {copiado ? '✓ Copiado' : 'Copiar'}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Divisor */}
+          <div style={{ borderLeft: '2px dashed #e5e5e5', marginLeft: 13, height: 16, marginBottom: '1.25rem' }} />
+
+          {/* Paso 2 */}
+          <div style={{ display: 'flex', gap: 14, marginBottom: '1.25rem', alignItems: 'flex-start' }}>
+            <div style={{ width: 28, height: 28, borderRadius: '50%', background: GRUPOS[grupo].color, color: '#fff', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>2</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#111', marginBottom: 8 }}>Abre tu aplicación de calendario</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                <a href={googleUrl} target="_blank" rel="noreferrer"
+                  style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', border: '1px solid #e5e5e5', borderRadius: 8, textDecoration: 'none', color: '#222' }}>
+                  <span style={{ fontSize: 20 }}>📅</span>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 500 }}>Google Calendar</div>
+                    <div style={{ fontSize: 11, color: '#888' }}>Android · Web</div>
+                  </div>
+                </a>
+                <a href={webcalUrl}
+                  style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', border: '1px solid #e5e5e5', borderRadius: 8, textDecoration: 'none', color: '#222' }}>
+                  <span style={{ fontSize: 20 }}>🍎</span>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 500 }}>Apple Calendario</div>
+                    <div style={{ fontSize: 11, color: '#888' }}>iOS · macOS</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Divisor */}
+          <div style={{ borderLeft: '2px dashed #e5e5e5', marginLeft: 13, height: 16, marginBottom: '1.25rem' }} />
+
+          {/* Paso 3 */}
+          <div style={{ display: 'flex', gap: 14, marginBottom: '1.5rem', alignItems: 'flex-start' }}>
+            <div style={{ width: 28, height: 28, borderRadius: '50%', background: GRUPOS[grupo].color, color: '#fff', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>3</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#111', marginBottom: 4 }}>Pega la URL en el campo correspondiente</div>
+              <div style={{ fontSize: 13, color: '#666', lineHeight: 1.6 }}>
+                En el calendario que se ha abierto, busca el campo <strong>"URL del calendario"</strong> y pega el enlace que copiaste en el paso 1.
+              </div>
+            </div>
+          </div>
+
+          {/* Nota */}
+          <div style={{ background: '#f9f9f9', border: '1px solid #eee', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#555' }}>
+            ✓ Los horarios se actualizan automáticamente. Cuando la RFEF publique el horario oficial, aparecerá en tu calendario sin que tengas que hacer nada.
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
             <button
               onClick={() => setSeleccionado(null)}
               style={{ background: 'rgba(0,0,0,0.2)', border: 'none', borderRadius: 6, cursor: 'pointer', color: '#fff', fontSize: 13, padding: '4px 10px' }}
