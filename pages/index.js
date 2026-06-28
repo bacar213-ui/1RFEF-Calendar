@@ -140,7 +140,7 @@ export default function Home() {
                     gridTemplateColumns: 'repeat(5, 1fr)',
                     gridTemplateRows: 'repeat(4, 1fr)',
                     padding: 6,
-                    gap: 4,
+                    gap: 2,
                     pointerEvents: 'none',
                   }}>
                     {eq.map((e, i) => (
