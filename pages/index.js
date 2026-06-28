@@ -3,59 +3,65 @@ import { useState } from 'react';
 const GRUPOS = {
   1: {
     color: '#E8590C',
-    colorOscuro: '#C44A08',
     nombre: 'Grupo 1',
     equipos: [
-      { id: 'merida', nombre: 'AD Mérida' },
-      { id: 'arenas', nombre: 'Arenas Club' },
-      { id: 'athleticb', nombre: "Athletic Club 'B'" },
-      { id: 'barakaldo', nombre: 'Barakaldo CF' },
-      { id: 'coria', nombre: 'CD Coria' },
-      { id: 'extremadura', nombre: 'CD Extremadura' },
-      { id: 'lugo', nombre: 'CD Lugo' },
-      { id: 'mirandes', nombre: 'CD Mirandés' },
-      { id: 'cacereno', nombre: 'CP Cacereño' },
-      { id: 'leonesa', nombre: 'CyD Leonesa' },
-      { id: 'pontevedra', nombre: 'Pontevedra CF' },
-      { id: 'ferrol', nombre: 'Racing Club Ferrol' },
-      { id: 'fabril', nombre: 'RC Deportivo Fabril' },
-      { id: 'aviles', nombre: 'Real Avilés Industrial' },
-      { id: 'realunion', nombre: 'Real Unión Club' },
-      { id: 'ponferradina', nombre: 'SD Ponferradina' },
-      { id: 'logrono', nombre: 'UD Logroñés' },
-      { id: 'ourense', nombre: 'UD Ourense' },
-      { id: 'unionistas', nombre: 'Unionistas de Salamanca CF' },
-      { id: 'zamora', nombre: 'Zamora CF' },
+      { id: 'merida', nombre: 'AD Mérida', c1: '#004B8D', c2: '#C8102E' },
+      { id: 'arenas', nombre: 'Arenas Club', c1: '#003366', c2: '#0055A4' },
+      { id: 'athleticb', nombre: "Athletic Club 'B'", c1: '#EE2523', c2: '#1A1A1A' },
+      { id: 'barakaldo', nombre: 'Barakaldo CF', c1: '#006400', c2: '#1A1A1A' },
+      { id: 'coria', nombre: 'CD Coria', c1: '#003DA5', c2: '#C8102E' },
+      { id: 'extremadura', nombre: 'CD Extremadura', c1: '#004B8D', c2: '#1A1A1A' },
+      { id: 'lugo', nombre: 'CD Lugo', c1: '#C8102E', c2: '#1A1A1A' },
+      { id: 'mirandes', nombre: 'CD Mirandés', c1: '#C8102E', c2: '#1A1A1A' },
+      { id: 'cacereno', nombre: 'CP Cacereño', c1: '#004B8D', c2: '#C8102E' },
+      { id: 'leonesa', nombre: 'CyD Leonesa', c1: '#6B2D8B', c2: '#1A1A1A' },
+      { id: 'pontevedra', nombre: 'Pontevedra CF', c1: '#C8102E', c2: '#1A1A1A' },
+      { id: 'ferrol', nombre: 'Racing Club Ferrol', c1: '#006CB7', c2: '#1A1A1A' },
+      { id: 'fabril', nombre: 'RC Deportivo Fabril', c1: '#006CB7', c2: '#1A1A1A' },
+      { id: 'aviles', nombre: 'Real Avilés Industrial', c1: '#004B8D', c2: '#C8102E' },
+      { id: 'realunion', nombre: 'Real Unión Club', c1: '#004B8D', c2: '#1A1A1A' },
+      { id: 'ponferradina', nombre: 'SD Ponferradina', c1: '#C8102E', c2: '#1A1A1A' },
+      { id: 'logrono', nombre: 'UD Logroñés', c1: '#C8102E', c2: '#8B0000' },
+      { id: 'ourense', nombre: 'UD Ourense', c1: '#C8102E', c2: '#1A1A1A' },
+      { id: 'unionistas', nombre: 'Unionistas de Salamanca CF', c1: '#1A1A1A', c2: '#C8102E' },
+      { id: 'zamora', nombre: 'Zamora CF', c1: '#C8102E', c2: '#006400' },
     ]
   },
   2: {
     color: '#CC0000',
-    colorOscuro: '#A30000',
     nombre: 'Grupo 2',
     equipos: [
-      { id: 'alcorcon', nombre: 'AD Alcorcón' },
-      { id: 'aguilas', nombre: 'Águilas FC' },
-      { id: 'algeciras', nombre: 'Algeciras CF' },
-      { id: 'antequera', nombre: 'Antequera CF' },
-      { id: 'atleticomadrileno', nombre: 'Atlético Madrileño' },
-      { id: 'teruel', nombre: 'CD Teruel' },
-      { id: 'europa', nombre: 'CE Europa' },
-      { id: 'majadahonda', nombre: 'CF Rayo Majadahonda' },
-      { id: 'cartagena', nombre: 'FC Cartagena' },
-      { id: 'nastic', nombre: 'Gimnàstic de Tarragona' },
-      { id: 'hercules', nombre: 'Hércules de Alicante CF' },
-      { id: 'torremolinos', nombre: 'Juventud de Torremolinos CF' },
-      { id: 'jaen', nombre: 'Real Jaén CF' },
-      { id: 'rmcastilla', nombre: 'Real Madrid Castilla' },
-      { id: 'rmurcia', nombre: 'Real Murcia CF' },
-      { id: 'zaragoza', nombre: 'Real Zaragoza' },
-      { id: 'huesca', nombre: 'SD Huesca' },
-      { id: 'ibiza', nombre: 'UD Ibiza' },
-      { id: 'standreu', nombre: 'UE Sant Andreu' },
-      { id: 'villarreal', nombre: "Villarreal CF 'B'" },
+      { id: 'alcorcon', nombre: 'AD Alcorcón', c1: '#C8102E', c2: '#1A1A1A' },
+      { id: 'aguilas', nombre: 'Águilas FC', c1: '#003DA5', c2: '#C8102E' },
+      { id: 'algeciras', nombre: 'Algeciras CF', c1: '#006CB7', c2: '#1A1A1A' },
+      { id: 'antequera', nombre: 'Antequera CF', c1: '#1A1A1A', c2: '#C8102E' },
+      { id: 'atleticomadrileno', nombre: 'Atlético Madrileño', c1: '#C8102E', c2: '#003DA5' },
+      { id: 'teruel', nombre: 'CD Teruel', c1: '#003DA5', c2: '#C8102E' },
+      { id: 'europa', nombre: 'CE Europa', c1: '#003DA5', c2: '#C8102E' },
+      { id: 'majadahonda', nombre: 'CF Rayo Majadahonda', c1: '#C8102E', c2: '#FFD700' },
+      { id: 'cartagena', nombre: 'FC Cartagena', c1: '#1A1A1A', c2: '#FFFFFF' },
+      { id: 'nastic', nombre: 'Gimnàstic de Tarragona', c1: '#8B0000', c2: '#1A1A1A' },
+      { id: 'hercules', nombre: 'Hércules de Alicante CF', c1: '#1A1A1A', c2: '#006CB7' },
+      { id: 'torremolinos', nombre: 'Juventud de Torremolinos CF', c1: '#006400', c2: '#1A1A1A' },
+      { id: 'jaen', nombre: 'Real Jaén CF', c1: '#FFD700', c2: '#1A1A1A' },
+      { id: 'rmcastilla', nombre: 'Real Madrid Castilla', c1: '#FFFFFF', c2: '#C0A030' },
+      { id: 'rmurcia', nombre: 'Real Murcia CF', c1: '#8B0000', c2: '#FFD700' },
+      { id: 'zaragoza', nombre: 'Real Zaragoza', c1: '#003DA5', c2: '#1A1A1A' },
+      { id: 'huesca', nombre: 'SD Huesca', c1: '#003DA5', c2: '#C8102E' },
+      { id: 'ibiza', nombre: 'UD Ibiza', c1: '#C8102E', c2: '#1A1A1A' },
+      { id: 'standreu', nombre: 'UE Sant Andreu', c1: '#FFD700', c2: '#C8102E' },
+      { id: 'villarreal', nombre: "Villarreal CF 'B'", c1: '#FFD700', c2: '#004B8D' },
     ]
   }
 };
+
+function getTextColor(hex) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.5 ? '#1a1a1a' : '#ffffff';
+}
 
 export default function Home() {
   const [grupo, setGrupo] = useState(null);
@@ -75,14 +81,13 @@ export default function Home() {
   };
 
   const colorGrupo = grupo ? GRUPOS[grupo].color : '#1a1a2e';
-  const colorOscuro = grupo ? GRUPOS[grupo].colorOscuro : '#1a1a2e';
 
   return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', maxWidth: 680, margin: '0 auto', padding: '2rem 1rem' }}>
+    <div style={{ fontFamily: 'system-ui, sans-serif', maxWidth: 700, margin: '0 auto', padding: '2rem 1rem' }}>
 
       {/* Hero */}
       <div style={{
-        background: `linear-gradient(135deg, #1a1a1a 0%, ${colorGrupo}88 100%)`,
+        background: `linear-gradient(135deg, #1a1a1a 0%, ${colorGrupo}99 100%)`,
         borderRadius: 12,
         padding: '2rem 1.5rem',
         textAlign: 'center',
@@ -104,7 +109,7 @@ export default function Home() {
       {/* Pantalla 1: elegir grupo */}
       {!grupo && (
         <>
-          <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#888', marginBottom: 12, textAlign: 'center' }}>
+          <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#888', marginBottom: 16, textAlign: 'center' }}>
             Elige tu grupo
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -116,21 +121,21 @@ export default function Home() {
                   background: GRUPOS[g].color,
                   border: 'none',
                   borderRadius: 12,
-                  padding: '2rem 1rem',
+                  padding: '2.5rem 1rem',
                   cursor: 'pointer',
                   color: '#fff',
-                  transition: 'transform 0.15s, opacity 0.15s',
+                  transition: 'opacity 0.15s, transform 0.15s',
                 }}
-                onMouseOver={ev => ev.currentTarget.style.opacity = '0.9'}
-                onMouseOut={ev => ev.currentTarget.style.opacity = '1'}
+                onMouseOver={ev => { ev.currentTarget.style.opacity = '0.88'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
+                onMouseOut={ev => { ev.currentTarget.style.opacity = '1'; ev.currentTarget.style.transform = 'scale(1)'; }}
               >
-                <div style={{ fontSize: 13, letterSpacing: '0.06em', textTransform: 'uppercase', opacity: 0.8, marginBottom: 6 }}>
+                <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.75, marginBottom: 8 }}>
                   1ª RFEF
                 </div>
-                <div style={{ fontSize: 28, fontWeight: 700 }}>
+                <div style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.5px' }}>
                   Grupo {g}
                 </div>
-                <div style={{ fontSize: 12, opacity: 0.7, marginTop: 6 }}>
+                <div style={{ fontSize: 12, opacity: 0.7, marginTop: 8 }}>
                   20 equipos
                 </div>
               </button>
@@ -142,7 +147,7 @@ export default function Home() {
       {/* Pantalla 2: elegir equipo */}
       {grupo && !seleccionado && (
         <>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
             <button
               onClick={() => setGrupo(null)}
               style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#888', fontSize: 13, padding: 0 }}
@@ -153,39 +158,44 @@ export default function Home() {
               background: GRUPOS[grupo].color,
               color: '#fff',
               fontSize: 12,
-              fontWeight: 600,
-              padding: '4px 12px',
+              fontWeight: 700,
+              padding: '4px 14px',
               borderRadius: 20,
-              letterSpacing: '0.05em'
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase'
             }}>
-              GRUPO {grupo}
+              Grupo {grupo}
             </div>
           </div>
-          <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#888', marginBottom: 12 }}>
-            Elige tu equipo
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 8 }}>
-            {GRUPOS[grupo].equipos.map(e => (
-              <button
-                key={e.id}
-                onClick={() => setSeleccionado(e)}
-                style={{
-                  background: '#fff',
-                  border: `1.5px solid #e5e5e5`,
-                  borderRadius: 8,
-                  padding: '10px 12px',
-                  fontSize: 13,
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  color: '#222',
-                  transition: 'border-color 0.15s'
-                }}
-                onMouseOver={ev => { ev.currentTarget.style.borderColor = GRUPOS[grupo].color; ev.currentTarget.style.color = GRUPOS[grupo].color; }}
-                onMouseOut={ev => { ev.currentTarget.style.borderColor = '#e5e5e5'; ev.currentTarget.style.color = '#222'; }}
-              >
-                {e.nombre}
-              </button>
-            ))}
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(155px, 1fr))', gap: 8 }}>
+            {GRUPOS[grupo].equipos.map(e => {
+              const textColor = getTextColor(e.c1);
+              return (
+                <button
+                  key={e.id}
+                  onClick={() => setSeleccionado(e)}
+                  style={{
+                    background: `linear-gradient(135deg, ${e.c1} 0%, ${e.c2} 100%)`,
+                    border: 'none',
+                    borderRadius: 8,
+                    padding: '14px 12px',
+                    fontSize: 13,
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    color: textColor,
+                    lineHeight: 1.3,
+                    transition: 'opacity 0.15s, transform 0.15s',
+                    textShadow: textColor === '#ffffff' ? '0 1px 2px rgba(0,0,0,0.4)' : 'none',
+                  }}
+                  onMouseOver={ev => { ev.currentTarget.style.opacity = '0.88'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
+                  onMouseOut={ev => { ev.currentTarget.style.opacity = '1'; ev.currentTarget.style.transform = 'scale(1)'; }}
+                >
+                  {e.nombre}
+                </button>
+              );
+            })}
           </div>
         </>
       )}
@@ -193,19 +203,29 @@ export default function Home() {
       {/* Pantalla 3: URL y suscripción */}
       {seleccionado && (
         <div style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: 12, padding: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1.25rem' }}>
+          <div style={{
+            background: `linear-gradient(135deg, ${seleccionado.c1} 0%, ${seleccionado.c2} 100%)`,
+            borderRadius: 8,
+            padding: '14px 16px',
+            marginBottom: '1.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
+            <div>
+              <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>
+                {seleccionado.nombre}
+              </div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', marginTop: 2 }}>
+                1ª RFEF · Grupo {grupo} · 2026/27
+              </div>
+            </div>
             <button
               onClick={() => setSeleccionado(null)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#888', fontSize: 13, padding: 0 }}
+              style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: 6, cursor: 'pointer', color: '#fff', fontSize: 13, padding: '4px 10px' }}
             >
-              ←
+              ← Volver
             </button>
-            <div>
-              <h2 style={{ fontSize: 18, fontWeight: 600, margin: 0, color: '#111' }}>{seleccionado.nombre}</h2>
-              <p style={{ fontSize: 12, color: '#888', margin: 0 }}>
-                1ª RFEF · <span style={{ color: GRUPOS[grupo].color, fontWeight: 600 }}>Grupo {grupo}</span> · Temporada 2026/27
-              </p>
-            </div>
           </div>
 
           <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#888', marginBottom: 8 }}>
