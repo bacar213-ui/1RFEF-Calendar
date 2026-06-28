@@ -140,7 +140,7 @@ export default function Home() {
                     gridTemplateColumns: 'repeat(5, 1fr)',
                     gridTemplateRows: 'repeat(4, 1fr)',
                     padding: 6,
-                    gap: 2,
+                    gap: 1,
                     pointerEvents: 'none',
                   }}>
                     {eq.map((e, i) => (
@@ -148,7 +148,7 @@ export default function Home() {
                         key={i}
                         src={`/escudos/${e.escudo}`}
                         alt=""
-                        style={{ width: '75%', height: '75%', objectFit: 'contain', opacity: 0.3 }}
+                        style={{ width: '70%', height: '70%', objectFit: 'contain', opacity: 0.3 }}
                       />
                     ))}
                   </div>
