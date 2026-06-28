@@ -5,72 +5,55 @@ const GRUPOS = {
     color: '#E8590C',
     nombre: 'Grupo 1',
     equipos: [
-      { id: 'merida', nombre: 'AD Mérida', c1: '#1a1a1a', c2: '#888888' },
-      { id: 'arenas', nombre: 'Arenas Club', c1: '#1a1a1a', c2: '#C8102E' },
-      { id: 'athleticb', nombre: "Athletic Club 'B'", c1: '#C8102E', c2: '#FFFFFF' },
-      { id: 'barakaldo', nombre: 'Barakaldo CF', c1: '#FFD700', c2: '#1a1a1a' },
-      { id: 'coria', nombre: 'CD Coria', c1: '#6CB4E4', c2: '#FFFFFF' },
-      { id: 'extremadura', nombre: 'CD Extremadura', c1: '#6B0020', c2: '#00205B' },
-      { id: 'lugo', nombre: 'CD Lugo', c1: '#C8102E', c2: '#FFFFFF' },
-      { id: 'mirandes', nombre: 'CD Mirandés', c1: '#C8102E', c2: '#1a1a1a' },
-      { id: 'cacereno', nombre: 'CP Cacereño', c1: '#1a5c1a', c2: '#FFFFFF' },
-      { id: 'leonesa', nombre: 'CyD Leonesa', c1: '#FFFFFF', c2: '#C8102E' },
-      { id: 'pontevedra', nombre: 'Pontevedra CF', c1: '#6B0020', c2: '#003DA5' },
-      { id: 'ferrol', nombre: 'Racing Club Ferrol', c1: '#1a6b1a', c2: '#1a1a1a' },
-      { id: 'fabril', nombre: 'RC Deportivo Fabril', c1: '#003DA5', c2: '#FFFFFF' },
-      { id: 'aviles', nombre: 'Real Avilés Industrial', c1: '#003DA5', c2: '#FFFFFF' },
-      { id: 'realunion', nombre: 'Real Unión Club', c1: '#FFFFFF', c2: '#1a1a1a' },
-      { id: 'ponferradina', nombre: 'SD Ponferradina', c1: '#003DA5', c2: '#FFFFFF' },
-      { id: 'logrono', nombre: 'UD Logroñés', c1: '#C8102E', c2: '#FFFFFF' },
-      { id: 'ourense', nombre: 'UD Ourense', c1: '#C8102E', c2: '#003DA5' },
-      { id: 'unionistas', nombre: 'Unionistas de Salamanca CF', c1: '#1a1a1a', c2: '#FFFFFF' },
-      { id: 'zamora', nombre: 'Zamora CF', c1: '#C8102E', c2: '#FFFFFF' },
+      { id: 'merida', nombre: 'AD Mérida', c1: '#1a1a1a', c2: '#888888', escudo: 'Merida_AD.png' },
+      { id: 'arenas', nombre: 'Arenas Club', c1: '#1a1a1a', c2: '#C8102E', escudo: 'Arenas_Club.png' },
+      { id: 'athleticb', nombre: "Athletic Club 'B'", c1: '#C8102E', c2: '#FFFFFF', escudo: 'Athletic_Club_B_U21.png' },
+      { id: 'barakaldo', nombre: 'Barakaldo CF', c1: '#FFD700', c2: '#1a1a1a', escudo: 'Barakaldo_CF.png' },
+      { id: 'coria', nombre: 'CD Coria', c1: '#6CB4E4', c2: '#FFFFFF', escudo: 'CD_Coria.png' },
+      { id: 'extremadura', nombre: 'CD Extremadura', c1: '#6B0020', c2: '#00205B', escudo: 'CD_Extremadura.png' },
+      { id: 'lugo', nombre: 'CD Lugo', c1: '#C8102E', c2: '#FFFFFF', escudo: 'CD_Lugo.png' },
+      { id: 'mirandes', nombre: 'CD Mirandés', c1: '#C8102E', c2: '#1a1a1a', escudo: 'Mirandes.png' },
+      { id: 'cacereno', nombre: 'CP Cacereño', c1: '#1a5c1a', c2: '#FFFFFF', escudo: 'CP_Cacereno.png' },
+      { id: 'leonesa', nombre: 'CyD Leonesa', c1: '#FFFFFF', c2: '#C8102E', escudo: 'Cultural_Leonesa.png' },
+      { id: 'pontevedra', nombre: 'Pontevedra CF', c1: '#6B0020', c2: '#003DA5', escudo: 'Pontevedra_CF.png' },
+      { id: 'ferrol', nombre: 'Racing Club Ferrol', c1: '#1a6b1a', c2: '#1a1a1a', escudo: 'Racing_de_Ferrol.png' },
+      { id: 'fabril', nombre: 'RC Deportivo Fabril', c1: '#003DA5', c2: '#FFFFFF', escudo: 'Deportivo_Fabril.png' },
+      { id: 'aviles', nombre: 'Real Avilés Industrial', c1: '#003DA5', c2: '#FFFFFF', escudo: 'Real_Aviles.png' },
+      { id: 'realunion', nombre: 'Real Unión Club', c1: '#FFFFFF', c2: '#1a1a1a', escudo: 'Real_Union_Club.png' },
+      { id: 'ponferradina', nombre: 'SD Ponferradina', c1: '#003DA5', c2: '#FFFFFF', escudo: 'SD_Ponferradina.png' },
+      { id: 'logrono', nombre: 'UD Logroñés', c1: '#C8102E', c2: '#FFFFFF', escudo: 'UD_Logrones.png' },
+      { id: 'ourense', nombre: 'UD Ourense', c1: '#C8102E', c2: '#003DA5', escudo: 'Union_Deportiva_Ourense.png' },
+      { id: 'unionistas', nombre: 'Unionistas de Salamanca CF', c1: '#1a1a1a', c2: '#FFFFFF', escudo: 'Unionistas_de_Salamanca_CF.png' },
+      { id: 'zamora', nombre: 'Zamora CF', c1: '#C8102E', c2: '#FFFFFF', escudo: 'Zamora_CF.png' },
     ]
   },
   2: {
     color: '#CC0000',
     nombre: 'Grupo 2',
     equipos: [
-      { id: 'alcorcon', nombre: 'AD Alcorcón', c1: '#FFD700', c2: '#003DA5' },
-      { id: 'aguilas', nombre: 'Águilas FC', c1: '#003DA5', c2: '#FFFFFF' },
-      { id: 'algeciras', nombre: 'Algeciras CF', c1: '#C8102E', c2: '#FFFFFF' },
-      { id: 'antequera', nombre: 'Antequera CF', c1: '#1a6b1a', c2: '#FFFFFF' },
-      { id: 'atleticomadrileno', nombre: 'Atlético Madrileño', c1: '#C8102E', c2: '#FFFFFF' },
-      { id: 'teruel', nombre: 'CD Teruel', c1: '#C8102E', c2: '#003DA5' },
-      { id: 'europa', nombre: 'CE Europa', c1: '#003DA5', c2: '#FFFFFF' },
-      { id: 'majadahonda', nombre: 'CF Rayo Majadahonda', c1: '#003DA5', c2: '#FFFFFF' },
-      { id: 'cartagena', nombre: 'FC Cartagena', c1: '#1a1a1a', c2: '#FFFFFF' },
-      { id: 'nastic', nombre: 'Gimnàstic de Tarragona', c1: '#C8102E', c2: '#FFFFFF' },
-      { id: 'hercules', nombre: 'Hércules de Alicante CF', c1: '#003DA5', c2: '#FFFFFF' },
-      { id: 'torremolinos', nombre: 'Juventud de Torremolinos CF', c1: '#1a6b1a', c2: '#FFFFFF' },
-      { id: 'jaen', nombre: 'Real Jaén CF', c1: '#6B2D8B', c2: '#FFFFFF' },
-      { id: 'rmcastilla', nombre: 'Real Madrid Castilla', c1: '#9B8FD0', c2: '#FFFFFF' },
-      { id: 'rmurcia', nombre: 'Real Murcia CF', c1: '#C8102E', c2: '#FFFFFF' },
-      { id: 'zaragoza', nombre: 'Real Zaragoza', c1: '#003DA5', c2: '#FFFFFF' },
-      { id: 'huesca', nombre: 'SD Huesca', c1: '#003DA5', c2: '#6B0020' },
-      { id: 'ibiza', nombre: 'UD Ibiza', c1: '#6CB4E4', c2: '#FFFFFF' },
-      { id: 'standreu', nombre: 'UE Sant Andreu', c1: '#FFD700', c2: '#C8102E' },
-      { id: 'villarreal', nombre: "Villarreal CF 'B'", c1: '#FFD700', c2: '#003DA5' },
+      { id: 'alcorcon', nombre: 'AD Alcorcón', c1: '#FFD700', c2: '#003DA5', escudo: 'AD_Alcorcon.png' },
+      { id: 'aguilas', nombre: 'Águilas FC', c1: '#003DA5', c2: '#FFFFFF', escudo: 'CDA_Aguilas_FC.png' },
+      { id: 'algeciras', nombre: 'Algeciras CF', c1: '#C8102E', c2: '#FFFFFF', escudo: 'Algeciras_CF.png' },
+      { id: 'antequera', nombre: 'Antequera CF', c1: '#1a6b1a', c2: '#FFFFFF', escudo: 'Antequera.png' },
+      { id: 'atleticomadrileno', nombre: 'Atlético Madrileño', c1: '#C8102E', c2: '#FFFFFF', escudo: 'Atletico_Madrileno.png' },
+      { id: 'teruel', nombre: 'CD Teruel', c1: '#C8102E', c2: '#003DA5', escudo: 'CD_Teruel.png' },
+      { id: 'europa', nombre: 'CE Europa', c1: '#003DA5', c2: '#FFFFFF', escudo: 'CE_Europa.png' },
+      { id: 'majadahonda', nombre: 'CF Rayo Majadahonda', c1: '#003DA5', c2: '#FFFFFF', escudo: 'Rayo_Majadahonda.png' },
+      { id: 'cartagena', nombre: 'FC Cartagena', c1: '#1a1a1a', c2: '#FFFFFF', escudo: 'FC_Cartagena.png' },
+      { id: 'nastic', nombre: 'Gimnàstic de Tarragona', c1: '#C8102E', c2: '#FFFFFF', escudo: 'Gimnastic_de_Tarragona.png' },
+      { id: 'hercules', nombre: 'Hércules de Alicante CF', c1: '#003DA5', c2: '#FFFFFF', escudo: 'Hercules_CF.png' },
+      { id: 'torremolinos', nombre: 'Juventud de Torremolinos CF', c1: '#1a6b1a', c2: '#FFFFFF', escudo: 'Juventud_Torremolinos_CF.png' },
+      { id: 'jaen', nombre: 'Real Jaén CF', c1: '#6B2D8B', c2: '#FFFFFF', escudo: 'Real_Jaen.png' },
+      { id: 'rmcastilla', nombre: 'Real Madrid Castilla', c1: '#9B8FD0', c2: '#FFFFFF', escudo: 'Real_Madrid_Castilla_U21.png' },
+      { id: 'rmurcia', nombre: 'Real Murcia CF', c1: '#C8102E', c2: '#FFFFFF', escudo: 'Real_Murcia.png' },
+      { id: 'zaragoza', nombre: 'Real Zaragoza', c1: '#003DA5', c2: '#FFFFFF', escudo: 'Real_Zaragoza.png' },
+      { id: 'huesca', nombre: 'SD Huesca', c1: '#003DA5', c2: '#6B0020', escudo: 'Huesca.png' },
+      { id: 'ibiza', nombre: 'UD Ibiza', c1: '#6CB4E4', c2: '#FFFFFF', escudo: 'UD_Ibiza.png' },
+      { id: 'standreu', nombre: 'UE Sant Andreu', c1: '#FFD700', c2: '#C8102E', escudo: 'UE_Sant_Andreu.png' },
+      { id: 'villarreal', nombre: "Villarreal CF 'B'", c1: '#FFD700', c2: '#003DA5', escudo: 'Villarreal_B_U23.png' },
     ]
   }
 };
-
-const paso2Style = {
-  border: '1px solid #e5e5e5',
-  borderRadius: 8,
-  overflow: 'hidden',
-  marginBottom: 8,
-};
-
-const cabeceraPasoStyle = (abierto, color) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '12px 14px',
-  cursor: 'pointer',
-  background: abierto ? '#f9f9f9' : '#fff',
-  borderBottom: abierto ? '1px solid #e5e5e5' : 'none',
-});
 
 export default function Home() {
   const [grupo, setGrupo] = useState(null);
@@ -174,7 +157,7 @@ export default function Home() {
                   border: `1.5px solid ${e.c1}66`,
                   borderRadius: 8,
                   padding: '0 12px',
-                  fontSize: 13,
+                  fontSize: 12,
                   fontWeight: 500,
                   cursor: 'pointer',
                   textAlign: 'left',
@@ -183,11 +166,17 @@ export default function Home() {
                   height: '52px',
                   display: 'flex',
                   alignItems: 'center',
+                  gap: 8,
                   transition: 'opacity 0.15s, transform 0.15s',
                 }}
                 onMouseOver={ev => { ev.currentTarget.style.opacity = '0.8'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
                 onMouseOut={ev => { ev.currentTarget.style.opacity = '1'; ev.currentTarget.style.transform = 'scale(1)'; }}
               >
+                <img
+                  src={`/escudos/${e.escudo}`}
+                  alt={e.nombre}
+                  style={{ width: 28, height: 28, objectFit: 'contain', flexShrink: 0 }}
+                />
                 {e.nombre}
               </button>
             ))}
@@ -207,12 +196,19 @@ export default function Home() {
             alignItems: 'center',
             justifyContent: 'space-between'
           }}>
-            <div>
-              <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>
-                {seleccionado.nombre}
-              </div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>
-                1ª RFEF · Grupo {grupo} · 2026/27
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <img
+                src={`/escudos/${seleccionado.escudo}`}
+                alt={seleccionado.nombre}
+                style={{ width: 40, height: 40, objectFit: 'contain' }}
+              />
+              <div>
+                <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>
+                  {seleccionado.nombre}
+                </div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>
+                  1ª RFEF · Grupo {grupo} · 2026/27
+                </div>
               </div>
             </div>
             <button
@@ -246,20 +242,20 @@ export default function Home() {
               <div style={{ fontSize: 14, fontWeight: 600, color: '#111', marginBottom: 12 }}>Añade el calendario</div>
 
               {/* 2.1 Desde web */}
-              <div style={paso2Style}>
-                <div style={cabeceraPasoStyle(webAbierto)} onClick={() => setWebAbierto(!webAbierto)}>
+              <div style={{ border: '1px solid #e5e5e5', borderRadius: 8, overflow: 'hidden', marginBottom: 8 }}>
+                <div
+                  onClick={() => setWebAbierto(!webAbierto)}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', cursor: 'pointer', background: webAbierto ? '#f9f9f9' : '#fff', borderBottom: webAbierto ? '1px solid #e5e5e5' : 'none' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span style={{ fontSize: 16 }}>💻</span>
-                    <div>
-                      <span style={{ fontSize: 13, fontWeight: 600, color: '#111' }}>Desde el ordenador</span>
-                      <span style={{ fontSize: 11, color: '#fff', background: color, borderRadius: 10, padding: '2px 8px', marginLeft: 8 }}>Recomendado</span>
-                    </div>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: '#111' }}>Desde el ordenador</span>
+                    <span style={{ fontSize: 11, color: '#fff', background: color, borderRadius: 10, padding: '2px 8px' }}>Recomendado</span>
                   </div>
                   <span style={{ fontSize: 12, color: '#aaa' }}>{webAbierto ? '▲' : '▼'}</span>
                 </div>
                 {webAbierto && (
-                  <div style={{ padding: '14px 14px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 8, marginBottom: 14 }}>
+                  <div style={{ padding: '14px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 8 }}>
                       <a href={googleUrl} target="_blank" rel="noreferrer"
                         style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', border: '1px solid #e5e5e5', borderRadius: 8, textDecoration: 'none', color: '#222' }}>
                         <span style={{ fontSize: 20 }}>📅</span>
@@ -282,8 +278,10 @@ export default function Home() {
               </div>
 
               {/* 2.2 Desde móvil */}
-              <div style={paso2Style}>
-                <div style={cabeceraPasoStyle(movilAbierto)} onClick={() => setMovilAbierto(!movilAbierto)}>
+              <div style={{ border: '1px solid #e5e5e5', borderRadius: 8, overflow: 'hidden' }}>
+                <div
+                  onClick={() => setMovilAbierto(!movilAbierto)}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', cursor: 'pointer', background: movilAbierto ? '#f9f9f9' : '#fff', borderBottom: movilAbierto ? '1px solid #e5e5e5' : 'none' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span style={{ fontSize: 16 }}>📱</span>
                     <span style={{ fontSize: 13, fontWeight: 600, color: '#111' }}>Desde el móvil</span>
@@ -291,12 +289,12 @@ export default function Home() {
                   <span style={{ fontSize: 12, color: '#aaa' }}>{movilAbierto ? '▲' : '▼'}</span>
                 </div>
                 {movilAbierto && (
-                  <div style={{ padding: '14px 14px' }}>
+                  <div style={{ padding: '14px' }}>
                     <div style={{ fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>📅 Google Calendar (Android)</div>
                     <Paso num="1" texto="Abre Chrome en tu móvil" />
                     <Paso num="2" texto={<>Ve a <strong>calendar.google.com</strong></>} />
                     <Paso num="3" texto={<>Pulsa los tres puntos (⋮) → <strong>Versión de escritorio</strong></>} />
-                    <Paso num="4" texto={<>Pulsa el icono de ajustes (⚙️) → <strong>Añadir calendario</strong> → <strong>Desde URL</strong></>} />
+                    <Paso num="4" texto={<>Pulsa el icono de ajustes ⚙️ → <strong>Añadir calendario</strong> → <strong>Desde URL</strong></>} />
                     <Paso num="5" texto="Pega el enlace copiado en el paso 1 y pulsa Añadir calendario" />
 
                     <div style={{ borderTop: '1px solid #f0f0f0', margin: '14px 0' }} />
@@ -309,7 +307,6 @@ export default function Home() {
                   </div>
                 )}
               </div>
-
             </div>
           </div>
 
