@@ -137,8 +137,8 @@ export default function Home() {
                     position: 'absolute',
                     inset: 0,
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(8, 1fr)',
-                    gridTemplateRows: 'repeat(5, 1fr)',
+                    gridTemplateColumns: 'repeat(5, 1fr)',
+                    gridTemplateRows: 'repeat(4, 1fr)',
                     padding: 6,
                     gap: 4,
                     pointerEvents: 'none',
@@ -148,7 +148,7 @@ export default function Home() {
                         key={i}
                         src={`/escudos/${e.escudo}`}
                         alt=""
-                        style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.25 }}
+                        style={{ width: '50%', height: '50%', objectFit: 'contain', opacity: 0.25 }}
                       />
                     ))}
                   </div>
