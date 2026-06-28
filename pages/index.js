@@ -115,20 +115,14 @@ export default function Home() {
             {[1, 2].map(g => {
               const eq = GRUPOS[g].equipos;
               const posiciones = [
-                // Fila superior (fila 1, col 1-11) = 11 escudos
-                [1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],[1,8],[1,9],[1,10],[1,11],
-                // Columna derecha (fila 2-8, col 11) = 7 escudos
-                [2,11],[3,11],[4,11],[5,11],[6,11],[7,11],[8,11],
-                // Fila inferior (fila 9, col 11-1) = 11 escudos
-                [9,11],[9,10],[9,9],[9,8],[9,7],[9,6],[9,5],[9,4],[9,3],[9,2],[9,1],
-                // Columna izquierda (fila 8-2, col 1) = 7 escudos
-                [8,1],[7,1],[6,1],[5,1],[4,1],[3,1],[2,1],
-              ];
-              const escudosMarco = [
-                ...eq.slice(0, 11),
-                ...eq.slice(11, 18),
-                ...eq.slice(18, 20), ...eq.slice(0, 9),
-                ...eq.slice(9, 16),
+                // Fila superior (fila 1, col 1-7) = 7 escudos
+                [1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],
+                // Columna derecha (fila 2-4, col 7) = 3 escudos
+                [2,7],[3,7],[4,7],
+                // Fila inferior (fila 5, col 7-1) = 7 escudos
+                [5,7],[5,6],[5,5],[5,4],[5,3],[5,2],[5,1],
+                // Columna izquierda (fila 4-2, col 1) = 3 escudos
+                [4,1],[3,1],[2,1],
               ];
               return (
                 <button
@@ -153,8 +147,8 @@ export default function Home() {
                     position: 'absolute',
                     inset: 0,
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(11, 1fr)',
-                    gridTemplateRows: 'repeat(9, 1fr)',
+                    gridTemplateColumns: 'repeat(7, 1fr)',
+                    gridTemplateRows: 'repeat(5, 1fr)',
                     padding: 4,
                     gap: 2,
                     pointerEvents: 'none',
@@ -162,7 +156,7 @@ export default function Home() {
                     {posiciones.map(([fila, col], i) => (
                       <img
                         key={i}
-                        src={`/escudos/${escudosMarco[i].escudo}`}
+                        src={`/escudos/${eq[i].escudo}`}
                         alt=""
                         style={{
                           gridRow: fila,
