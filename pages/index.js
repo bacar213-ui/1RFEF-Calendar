@@ -259,7 +259,7 @@ export default function Home() {
                 </div>
                 {webAbierto && (
                   <div style={{ padding: '14px 14px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 8, marginBottom: 14 }}>
                       <a href={googleUrl} target="_blank" rel="noreferrer"
                         style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', border: '1px solid #e5e5e5', borderRadius: 8, textDecoration: 'none', color: '#222' }}>
                         <span style={{ fontSize: 20 }}>📅</span>
