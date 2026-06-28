@@ -37,14 +37,14 @@ const GRUPOS = {
       { id: 'antequera', nombre: 'Antequera CF', c1: '#1a6b1a', c2: '#FFFFFF' },
       { id: 'atleticomadrileno', nombre: 'Atlético Madrileño', c1: '#C8102E', c2: '#FFFFFF' },
       { id: 'teruel', nombre: 'CD Teruel', c1: '#C8102E', c2: '#003DA5' },
-      { id: 'europa', nombre: 'CE Europa', c1: '#FFFFFF', c2: '#003DA5' },
-      { id: 'majadahonda', nombre: 'CF Rayo Majadahonda', c1: '#FFFFFF', c2: '#003DA5' },
+      { id: 'europa', nombre: 'CE Europa', c1: '#003DA5', c2: '#FFFFFF' },
+      { id: 'majadahonda', nombre: 'CF Rayo Majadahonda', c1: '#003DA5', c2: '#FFFFFF' },
       { id: 'cartagena', nombre: 'FC Cartagena', c1: '#1a1a1a', c2: '#FFFFFF' },
       { id: 'nastic', nombre: 'Gimnàstic de Tarragona', c1: '#C8102E', c2: '#FFFFFF' },
       { id: 'hercules', nombre: 'Hércules de Alicante CF', c1: '#003DA5', c2: '#FFFFFF' },
       { id: 'torremolinos', nombre: 'Juventud de Torremolinos CF', c1: '#1a6b1a', c2: '#FFFFFF' },
-      { id: 'jaen', nombre: 'Real Jaén CF', c1: '#FFFFFF', c2: '#6B2D8B' },
-      { id: 'rmcastilla', nombre: 'Real Madrid Castilla', c1: '#FFFFFF', c2: '#9B8FD0' },
+      { id: 'jaen', nombre: 'Real Jaén CF', c1: '#6B2D8B', c2: '#FFFFFF' },
+      { id: 'rmcastilla', nombre: 'Real Madrid Castilla', c1: '#9B8FD0', c2: '#FFFFFF' },
       { id: 'rmurcia', nombre: 'Real Murcia CF', c1: '#C8102E', c2: '#FFFFFF' },
       { id: 'zaragoza', nombre: 'Real Zaragoza', c1: '#003DA5', c2: '#FFFFFF' },
       { id: 'huesca', nombre: 'SD Huesca', c1: '#003DA5', c2: '#6B0020' },
@@ -54,15 +54,6 @@ const GRUPOS = {
     ]
   }
 };
-
-function getTextColor(c1) {
-  const hex = c1.replace('#', '');
-  const r = parseInt(hex.slice(0, 2), 16);
-  const g = parseInt(hex.slice(2, 4), 16);
-  const b = parseInt(hex.slice(4, 6), 16);
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  return luminance > 0.55 ? '#1a1a1a' : '#ffffff';
-}
 
 export default function Home() {
   const [grupo, setGrupo] = useState(null);
@@ -148,34 +139,69 @@ export default function Home() {
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(155px, 1fr))', gap: 8 }}>
-            {GRUPOS[grupo].equipos.map(e => {
-              const textColor = getTextColor(e.c1);
-              return (
-                <button
-  key={e.id}
-  onClick={() => setSeleccionado(e)}
-  style={{
-    background: `linear-gradient(135deg, ${e.c1}22 0%, ${e.c2}11 100%)`,
-    border: `1.5px solid ${e.c1}66`,
-    borderRadius: 8,
-    padding: '0 12px',
-    fontSize: 13,
-    fontWeight: 500,
-    cursor: 'pointer',
-    textAlign: 'left',
-    color: '#1a1a1a',
-    lineHeight: 1.3,
-    transition: 'opacity 0.15s, transform 0.15s',
-    textShadow: 'none',
-    height: '52px',
-    display: 'flex',
-    alignItems: 'center',
-  }}
-  onMouseOver={ev => { ev.currentTarget.style.opacity = '0.8'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
-  onMouseOut={ev => { ev.currentTarget.style.opacity = '1'; ev.currentTarget.style.transform = 'scale(1)'; }}
->
-  {e.nombre}
-</button>
+            {GRUPOS[grupo].equipos.map(e => (
+              <button
+                key={e.id}
+                onClick={() => setSeleccionado(e)}
+                style={{
+                  background: `linear-gradient(135deg, ${e.c1}22 0%, ${e.c2}11 100%)`,
+                  border: `1.5px solid ${e.c1}66`,
+                  borderRadius: 8,
+                  padding: '0 12px',
+                  fontSize: 13,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  color: '#1a1a1a',
+                  lineHeight: 1.3,
+                  height: '52px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  transition: 'opacity 0.15s, transform 0.15s',
+                }}
+                onMouseOver={ev => { ev.currentTarget.style.opacity = '0.8'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
+                onMouseOut={ev => { ev.currentTarget.style.opacity = '1'; ev.currentTarget.style.transform = 'scale(1)'; }}
+              >
+                {e.nombre}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      {seleccionado && (
+        <div style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: 12, padding: '1.5rem' }}>
+          <div style={{
+            background: `linear-gradient(135deg, ${seleccionado.c1} 0%, ${seleccionado.c2} 100%)`,
+            borderRadius: 8,
+            padding: '14px 16px',
+            marginBottom: '1.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
+            <div>
+              <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>
+                {seleccionado.nombre}
+              </div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>
+                1ª RFEF · Grupo {grupo} · 2026/27
+              </div>
+            </div>
+            <button
+              onClick={() => setSeleccionado(null)}
+              style={{ background: 'rgba(0,0,0,0.2)', border: 'none', borderRadius: 6, cursor: 'pointer', color: '#fff', fontSize: 13, padding: '4px 10px' }}
+            >
+              ← Volver
+            </button>
+          </div>
+
+          <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#888', marginBottom: 8 }}>Tu enlace de suscripción</p>
+          <div style={{ background: '#f5f5f5', borderRadius: 8, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1.5rem' }}>
+            <span style={{ flex: 1, fontFamily: 'monospace', fontSize: 12, color: '#555', wordBreak: 'break-all' }}>{icalUrl}</span>
+            <button onClick={copiar} style={{ background: '#fff', border: '1px solid #ccc', borderRadius: 6, padding: '5px 10px', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+              {copiado ? '✓ Copiado' : 'Copiar'}
+            </button>
           </div>
 
           <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#888', marginBottom: 8 }}>Añadir a tu calendario</p>
