@@ -127,7 +127,7 @@ export default function Home() {
                     transition: 'opacity 0.15s, transform 0.15s',
                     position: 'relative',
                     overflow: 'hidden',
-                    minHeight: 160,
+                    minHeight: 200,
                     padding: 0,
                   }}
                   onMouseOver={ev => { ev.currentTarget.style.opacity = '0.88'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
@@ -148,7 +148,7 @@ export default function Home() {
                         key={i}
                         src={`/escudos/${e.escudo}`}
                         alt=""
-                        style={{ width: '60%', height: '60%', objectFit: 'contain', opacity: 0.3 }}
+                        style={{ width: '75%', height: '75%', objectFit: 'contain', opacity: 0.3 }}
                       />
                     ))}
                   </div>
