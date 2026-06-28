@@ -152,27 +152,30 @@ export default function Home() {
               const textColor = getTextColor(e.c1);
               return (
                 <button
-                  key={e.id}
-                  onClick={() => setSeleccionado(e)}
-                  style={{
-                    background: `linear-gradient(135deg, ${e.c1} 0%, ${e.c2} 100%)`,
-                    border: 'none',
-                    borderRadius: 8,
-                    padding: '14px 12px',
-                    fontSize: 13,
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    color: textColor,
-                    lineHeight: 1.3,
-                    transition: 'opacity 0.15s, transform 0.15s',
-                    textShadow: textColor === '#ffffff' ? '0 1px 2px rgba(0,0,0,0.4)' : 'none',
-                  }}
-                  onMouseOver={ev => { ev.currentTarget.style.opacity = '0.85'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
-                  onMouseOut={ev => { ev.currentTarget.style.opacity = '1'; ev.currentTarget.style.transform = 'scale(1)'; }}
-                >
-                  {e.nombre}
-                </button>
+  key={e.id}
+  onClick={() => setSeleccionado(e)}
+  style={{
+    background: `linear-gradient(135deg, ${e.c1} 0%, ${e.c2} 100%)`,
+    border: '2px solid rgba(255,255,255,0.25)',
+    borderRadius: 8,
+    padding: '0 12px',
+    fontSize: 13,
+    fontWeight: 600,
+    cursor: 'pointer',
+    textAlign: 'left',
+    color: textColor,
+    lineHeight: 1.3,
+    transition: 'opacity 0.15s, transform 0.15s',
+    textShadow: textColor === '#ffffff' ? '0 1px 2px rgba(0,0,0,0.4)' : 'none',
+    height: '52px',
+    display: 'flex',
+    alignItems: 'center',
+  }}
+  onMouseOver={ev => { ev.currentTarget.style.opacity = '0.85'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
+  onMouseOut={ev => { ev.currentTarget.style.opacity = '1'; ev.currentTarget.style.transform = 'scale(1)'; }}
+>
+  {e.nombre}
+</button>
               );
             })}
           </div>
