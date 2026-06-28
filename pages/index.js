@@ -155,7 +155,7 @@ export default function Home() {
                   <div style={{ position: 'relative', zIndex: 1, padding: '2.5rem 1rem' }}>
                     <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.75, marginBottom: 8 }}>1ª RFEF</div>
                     <div style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.5px' }}>Grupo {g}</div>
-                    <div style={{ fontSize: 12, opacity: 0.7, marginTop: 8 }}>20 equipos</div>
+                    <div style={{ fontSize: 12, opacity: 0.7, marginTop: 8 }}>{g === 1 ? 'Norte / Oeste' : 'Sur / Este'}</div>
                   </div>
                 </button>
               );
