@@ -139,7 +139,7 @@ export default function Home() {
                     display: 'grid',
                     gridTemplateColumns: 'repeat(5, 1fr)',
                     gridTemplateRows: 'repeat(4, 1fr)',
-                    padding: 3,
+                    padding: 1,
                     gap: 1,
                     pointerEvents: 'none',
                   }}>
