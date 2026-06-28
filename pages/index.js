@@ -55,10 +55,29 @@ const GRUPOS = {
   }
 };
 
+const paso2Style = {
+  border: '1px solid #e5e5e5',
+  borderRadius: 8,
+  overflow: 'hidden',
+  marginBottom: 8,
+};
+
+const cabeceraPasoStyle = (abierto, color) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: '12px 14px',
+  cursor: 'pointer',
+  background: abierto ? '#f9f9f9' : '#fff',
+  borderBottom: abierto ? '1px solid #e5e5e5' : 'none',
+});
+
 export default function Home() {
   const [grupo, setGrupo] = useState(null);
   const [seleccionado, setSeleccionado] = useState(null);
   const [copiado, setCopiado] = useState(false);
+  const [webAbierto, setWebAbierto] = useState(true);
+  const [movilAbierto, setMovilAbierto] = useState(false);
 
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
   const icalUrl = seleccionado ? `${baseUrl}/api/ical/${seleccionado.id}` : '';
@@ -73,6 +92,14 @@ export default function Home() {
   };
 
   const colorGrupo = grupo ? GRUPOS[grupo].color : '#1a1a2e';
+  const color = grupo ? GRUPOS[grupo].color : '#1a1a2e';
+
+  const Paso = ({ num, texto }) => (
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 10 }}>
+      <div style={{ width: 22, height: 22, borderRadius: '50%', background: color, color: '#fff', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>{num}</div>
+      <div style={{ fontSize: 13, color: '#444', lineHeight: 1.6 }}>{texto}</div>
+    </div>
+  );
 
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', maxWidth: 700, margin: '0 auto', padding: '2rem 1rem' }}>
@@ -84,7 +111,6 @@ export default function Home() {
         textAlign: 'center',
         marginBottom: '2rem',
         color: '#fff',
-        transition: 'background 0.4s'
       }}>
         <div style={{ fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', marginBottom: 12 }}>
           1ª RFEF · Temporada 2026/27
@@ -199,7 +225,7 @@ export default function Home() {
 
           {/* Paso 1 */}
           <div style={{ display: 'flex', gap: 14, marginBottom: '1.25rem', alignItems: 'flex-start' }}>
-            <div style={{ width: 28, height: 28, borderRadius: '50%', background: GRUPOS[grupo].color, color: '#fff', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>1</div>
+            <div style={{ width: 28, height: 28, borderRadius: '50%', background: color, color: '#fff', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>1</div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 14, fontWeight: 600, color: '#111', marginBottom: 8 }}>Copia tu enlace de calendario</div>
               <div style={{ background: '#f5f5f5', borderRadius: 8, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -215,27 +241,75 @@ export default function Home() {
 
           {/* Paso 2 */}
           <div style={{ display: 'flex', gap: 14, marginBottom: '1.25rem', alignItems: 'flex-start' }}>
-            <div style={{ width: 28, height: 28, borderRadius: '50%', background: GRUPOS[grupo].color, color: '#fff', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>2</div>
+            <div style={{ width: 28, height: 28, borderRadius: '50%', background: color, color: '#fff', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>2</div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: '#111', marginBottom: 8 }}>Abre tu aplicación de calendario</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                <a href={googleUrl} target="_blank" rel="noreferrer"
-                  style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', border: '1px solid #e5e5e5', borderRadius: 8, textDecoration: 'none', color: '#222' }}>
-                  <span style={{ fontSize: 20 }}>📅</span>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 500 }}>Google Calendar</div>
-                    <div style={{ fontSize: 11, color: '#888' }}>Android · Web</div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#111', marginBottom: 12 }}>Añade el calendario</div>
+
+              {/* 2.1 Desde web */}
+              <div style={paso2Style}>
+                <div style={cabeceraPasoStyle(webAbierto)} onClick={() => setWebAbierto(!webAbierto)}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ fontSize: 16 }}>💻</span>
+                    <div>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: '#111' }}>Desde el ordenador</span>
+                      <span style={{ fontSize: 11, color: '#fff', background: color, borderRadius: 10, padding: '2px 8px', marginLeft: 8 }}>Recomendado</span>
+                    </div>
                   </div>
-                </a>
-                <a href={webcalUrl}
-                  style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', border: '1px solid #e5e5e5', borderRadius: 8, textDecoration: 'none', color: '#222' }}>
-                  <span style={{ fontSize: 20 }}>🍎</span>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 500 }}>Apple Calendario</div>
-                    <div style={{ fontSize: 11, color: '#888' }}>iOS · macOS</div>
+                  <span style={{ fontSize: 12, color: '#aaa' }}>{webAbierto ? '▲' : '▼'}</span>
+                </div>
+                {webAbierto && (
+                  <div style={{ padding: '14px 14px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 }}>
+                      <a href={googleUrl} target="_blank" rel="noreferrer"
+                        style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', border: '1px solid #e5e5e5', borderRadius: 8, textDecoration: 'none', color: '#222' }}>
+                        <span style={{ fontSize: 20 }}>📅</span>
+                        <div>
+                          <div style={{ fontSize: 13, fontWeight: 500 }}>Google Calendar</div>
+                          <div style={{ fontSize: 11, color: '#888' }}>Android · Web</div>
+                        </div>
+                      </a>
+                      <a href={webcalUrl}
+                        style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', border: '1px solid #e5e5e5', borderRadius: 8, textDecoration: 'none', color: '#222' }}>
+                        <span style={{ fontSize: 20 }}>🍎</span>
+                        <div>
+                          <div style={{ fontSize: 13, fontWeight: 500 }}>Apple Calendario</div>
+                          <div style={{ fontSize: 11, color: '#888' }}>iOS · macOS</div>
+                        </div>
+                      </a>
+                    </div>
                   </div>
-                </a>
+                )}
               </div>
+
+              {/* 2.2 Desde móvil */}
+              <div style={paso2Style}>
+                <div style={cabeceraPasoStyle(movilAbierto)} onClick={() => setMovilAbierto(!movilAbierto)}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ fontSize: 16 }}>📱</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: '#111' }}>Desde el móvil</span>
+                  </div>
+                  <span style={{ fontSize: 12, color: '#aaa' }}>{movilAbierto ? '▲' : '▼'}</span>
+                </div>
+                {movilAbierto && (
+                  <div style={{ padding: '14px 14px' }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>📅 Google Calendar (Android)</div>
+                    <Paso num="1" texto="Abre Chrome en tu móvil" />
+                    <Paso num="2" texto={<>Ve a <strong>calendar.google.com</strong></>} />
+                    <Paso num="3" texto={<>Pulsa los tres puntos (⋮) → <strong>Versión de escritorio</strong></>} />
+                    <Paso num="4" texto={<>Pulsa el icono de ajustes (⚙️) → <strong>Añadir calendario</strong> → <strong>Desde URL</strong></>} />
+                    <Paso num="5" texto="Pega el enlace copiado en el paso 1 y pulsa Añadir calendario" />
+
+                    <div style={{ borderTop: '1px solid #f0f0f0', margin: '14px 0' }} />
+
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>🍎 Apple Calendario (iPhone)</div>
+                    <Paso num="1" texto="Abre Safari en tu iPhone" />
+                    <Paso num="2" texto="Pega el enlace copiado directamente en la barra de direcciones" />
+                    <Paso num="3" texto={<>Safari te preguntará si quieres suscribirte → pulsa <strong>Suscribirse</strong></>} />
+                    <Paso num="4" texto="Los partidos aparecerán al instante en tu app Calendario" />
+                  </div>
+                )}
+              </div>
+
             </div>
           </div>
 
@@ -243,7 +317,7 @@ export default function Home() {
 
           {/* Paso 3 */}
           <div style={{ display: 'flex', gap: 14, marginBottom: '1.5rem', alignItems: 'flex-start' }}>
-            <div style={{ width: 28, height: 28, borderRadius: '50%', background: GRUPOS[grupo].color, color: '#fff', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>3</div>
+            <div style={{ width: 28, height: 28, borderRadius: '50%', background: color, color: '#fff', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>3</div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 14, fontWeight: 600, color: '#111', marginBottom: 4 }}>Pega la URL en el campo correspondiente</div>
               <div style={{ fontSize: 13, color: '#666', lineHeight: 1.6 }}>
