@@ -148,7 +148,7 @@ export default function Home() {
                         key={i}
                         src={`/escudos/${e.escudo}`}
                         alt=""
-                        style={{ width: '70%', height: '70%', objectFit: 'contain', opacity: 0.3 }}
+                        style={{ width: '60%', height: '60%', objectFit: 'contain', opacity: 0.3 }}
                       />
                     ))}
                   </div>
