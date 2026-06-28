@@ -155,66 +155,27 @@ export default function Home() {
   key={e.id}
   onClick={() => setSeleccionado(e)}
   style={{
-    background: `linear-gradient(135deg, ${e.c1} 0%, ${e.c2} 100%)`,
-    border: '2px solid rgba(255,255,255,0.25)',
+    background: `linear-gradient(135deg, ${e.c1}22 0%, ${e.c2}11 100%)`,
+    border: `1.5px solid ${e.c1}66`,
     borderRadius: 8,
     padding: '0 12px',
     fontSize: 13,
-    fontWeight: 600,
+    fontWeight: 500,
     cursor: 'pointer',
     textAlign: 'left',
-    color: textColor,
+    color: '#1a1a1a',
     lineHeight: 1.3,
     transition: 'opacity 0.15s, transform 0.15s',
-    textShadow: textColor === '#ffffff' ? '0 1px 2px rgba(0,0,0,0.4)' : 'none',
+    textShadow: 'none',
     height: '52px',
     display: 'flex',
     alignItems: 'center',
   }}
-  onMouseOver={ev => { ev.currentTarget.style.opacity = '0.85'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
+  onMouseOver={ev => { ev.currentTarget.style.opacity = '0.8'; ev.currentTarget.style.transform = 'scale(1.02)'; }}
   onMouseOut={ev => { ev.currentTarget.style.opacity = '1'; ev.currentTarget.style.transform = 'scale(1)'; }}
 >
   {e.nombre}
 </button>
-              );
-            })}
-          </div>
-        </>
-      )}
-
-      {seleccionado && (
-        <div style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: 12, padding: '1.5rem' }}>
-          <div style={{
-            background: `linear-gradient(135deg, ${seleccionado.c1} 0%, ${seleccionado.c2} 100%)`,
-            borderRadius: 8,
-            padding: '14px 16px',
-            marginBottom: '1.25rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}>
-            <div>
-              <div style={{ fontSize: 17, fontWeight: 700, color: getTextColor(seleccionado.c1), textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>
-                {seleccionado.nombre}
-              </div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>
-                1ª RFEF · Grupo {grupo} · 2026/27
-              </div>
-            </div>
-            <button
-              onClick={() => setSeleccionado(null)}
-              style={{ background: 'rgba(0,0,0,0.2)', border: 'none', borderRadius: 6, cursor: 'pointer', color: '#fff', fontSize: 13, padding: '4px 10px' }}
-            >
-              ← Volver
-            </button>
-          </div>
-
-          <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#888', marginBottom: 8 }}>Tu enlace de suscripción</p>
-          <div style={{ background: '#f5f5f5', borderRadius: 8, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1.5rem' }}>
-            <span style={{ flex: 1, fontFamily: 'monospace', fontSize: 12, color: '#555', wordBreak: 'break-all' }}>{icalUrl}</span>
-            <button onClick={copiar} style={{ background: '#fff', border: '1px solid #ccc', borderRadius: 6, padding: '5px 10px', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap' }}>
-              {copiado ? '✓ Copiado' : 'Copiar'}
-            </button>
           </div>
 
           <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#888', marginBottom: 8 }}>Añadir a tu calendario</p>
