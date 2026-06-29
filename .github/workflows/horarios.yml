@@ -56,7 +56,7 @@ jobs:
           fi
 
           if [ -n "${{ github.event.inputs.imagenes_manual }}" ]; then
-            ARGS="$ARGS --imagenes '${{ github.event.inputs.imagenes_manual }}'"
+            ARGS="$ARGS --imagenes ${{ github.event.inputs.imagenes_manual }}"
           fi
 
           python scraper.py $ARGS
