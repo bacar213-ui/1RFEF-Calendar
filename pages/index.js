@@ -316,7 +316,7 @@ export default function Home() {
                 </div>
                 {movilAbierto && (
                   <div style={{ padding: '14px' }}>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>📅 Google Calendar (Android)</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}><img src="/google.png" width="14" height="14" style={{ objectFit: 'contain' }} /> Google Calendar (Android)</div>
                     <Paso num="1" texto="Abre Chrome en tu móvil" />
                     <Paso num="2" texto={<>Ve a <strong>calendar.google.com</strong></>} />
                     <Paso num="3" texto={<>Pulsa los tres puntos (⋮) → <strong>Versión de escritorio</strong></>} />
@@ -325,7 +325,7 @@ export default function Home() {
 
                     <div style={{ borderTop: '1px solid #f0f0f0', margin: '14px 0' }} />
 
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>🍎 Apple Calendario (iPhone)</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}><img src="/apple.png" width="14" height="14" style={{ objectFit: 'contain' }} /> Apple Calendario (iPhone)</div>
                     <Paso num="1" texto="Abre Safari en tu iPhone" />
                     <Paso num="2" texto="Pega el enlace copiado directamente en la barra de direcciones" />
                     <Paso num="3" texto={<>Safari te preguntará si quieres suscribirte → pulsa <strong>Suscribirse</strong></>} />
