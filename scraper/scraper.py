@@ -1,10 +1,7 @@
 """
 scraper.py — Extrae horarios de la 1ª RFEF desde la web de la RFEF
              y actualiza Supabase automáticamente.
-
-Uso:
-    python scraper.py --jornada 1
-    python scraper.py --jornada 1 --url https://rfef.es/es/noticias/...
+             Usa Google Gemini para leer las imágenes (API gratuita).
 """
 
 import os
@@ -14,7 +11,6 @@ import json
 import base64
 import argparse
 import requests
-import anthropic
 
 # ── Configuración ─────────────────────────────────────────────────────────────
 
@@ -121,10 +117,11 @@ NOMBRE_A_ID = {
     "cf talavera de la reina": None,
     "cd arenteiro": None,
     "cd tenerife": None,
+    "athletic club \"b\"": "athleticb",
 }
 
 
-def nombre_a_id(nombre: str) -> str | None:
+def nombre_a_id(nombre: str):
     return NOMBRE_A_ID.get(nombre.lower().strip())
 
 
@@ -140,26 +137,17 @@ def pagina_existe(url: str) -> bool:
         return False
 
 
-def extraer_urls_imagenes(url: str) -> list[str]:
+def extraer_urls_imagenes(url: str) -> list:
     r = requests.get(url, headers=HEADERS, timeout=15)
     r.raise_for_status()
     html = r.text
 
-    # DEBUG — ver todas las URLs con /sites/default/files/
-    todas = re.findall(r'https://rfef\.es/sites/default/files/[^\s"\'<>]+', html)
-    print(f"  [DEBUG] URLs /sites/default/files/ encontradas: {len(todas)}")
-    for u in todas[:15]:
-        print(f"    {u}")
-
-    # Patrón amplio para encontrar imágenes
     patron = r'https://rfef\.es/sites/default/files/[^\s"\'<>]+\.(?:jpeg|jpg|png|webp)'
     urls = re.findall(patron, html, re.IGNORECASE)
 
-    # Filtrar logos y UI
-    excluir = ['theme/', 'sponsors/', 'ico/', 'header-logo', 'styles/large/public/theme']
+    excluir = ['theme/', 'sponsors/', 'ico/', 'header-logo']
     urls = [u for u in urls if not any(x in u for x in excluir)]
 
-    # Eliminar duplicados
     vistas = set()
     resultado = []
     for u in urls:
@@ -170,7 +158,8 @@ def extraer_urls_imagenes(url: str) -> list[str]:
     return resultado
 
 
-def imagen_a_partidos(url_imagen: str) -> dict:
+def imagen_a_partidos_gemini(url_imagen: str) -> dict:
+    """Descarga la imagen y la manda a Google Gemini para extraer partidos."""
     contenido = requests.get(url_imagen, headers=HEADERS, timeout=20).content
 
     mime = "image/jpeg"
@@ -179,32 +168,41 @@ def imagen_a_partidos(url_imagen: str) -> dict:
     elif url_imagen.lower().endswith(".png"):
         mime = "image/png"
 
-    cliente = anthropic.Anthropic()
-    mensaje = cliente.messages.create(
-        model="claude-opus-4-6",
-        max_tokens=1500,
-        messages=[{
-            "role": "user",
-            "content": [
-                {
-                    "type": "image",
-                    "source": {
-                        "type": "base64",
-                        "media_type": mime,
-                        "data": base64.standard_b64encode(contenido).decode(),
-                    }
-                },
-                {"type": "text", "text": PROMPT_VISION}
-            ]
-        }]
+    imagen_b64 = base64.standard_b64encode(contenido).decode()
+
+    GEMINI_KEY = os.environ["GEMINI_API_KEY"]
+    url_api = (
+        f"https://generativelanguage.googleapis.com/v1beta/models/"
+        f"gemini-1.5-flash:generateContent?key={GEMINI_KEY}"
     )
 
-    texto = mensaje.content[0].text.strip()
+    payload = {
+        "contents": [{
+            "parts": [
+                {
+                    "inline_data": {
+                        "mime_type": mime,
+                        "data": imagen_b64,
+                    }
+                },
+                {"text": PROMPT_VISION}
+            ]
+        }],
+        "generationConfig": {
+            "temperature": 0,
+            "maxOutputTokens": 2000,
+        }
+    }
+
+    r = requests.post(url_api, json=payload, timeout=30)
+    r.raise_for_status()
+
+    texto = r.json()["candidates"][0]["content"]["parts"][0]["text"]
     texto = texto.replace("```json", "").replace("```", "").strip()
     return json.loads(texto)
 
 
-def upsert_supabase(partidos_extraidos: list[dict]) -> None:
+def upsert_supabase(partidos_extraidos: list) -> None:
     SUPABASE_URL = os.environ["SUPABASE_URL"]
     SUPABASE_KEY = os.environ["SUPABASE_ANON_KEY"]
 
@@ -261,7 +259,7 @@ def main():
         sys.exit(0)
 
     print("✓ Página encontrada. Extrayendo imágenes...")
-    urls_imagenes = extraer_urls_imagenes(args.url or url_jornada(args.jornada))
+    urls_imagenes = extraer_urls_imagenes(url)
     print(f"  → {len(urls_imagenes)} imagen(es) encontrada(s)")
 
     todos_partidos = []
@@ -269,7 +267,7 @@ def main():
     for url_img in urls_imagenes:
         print(f"\nProcesando: {url_img}")
         try:
-            datos = imagen_a_partidos(url_img)
+            datos = imagen_a_partidos_gemini(url_img)
             grupo = datos.get("grupo", "?")
             jornada = datos.get("jornada", args.jornada)
             print(f"  → {grupo}: {len(datos.get('partidos', []))} partidos extraídos")
