@@ -18,7 +18,6 @@ import anthropic
 
 # ── Configuración ─────────────────────────────────────────────────────────────
 
-# Patrón de URL — ajustar cuando se conozca el slug de la 26/27
 URL_PATRON = (
     "https://rfef.es/es/noticias/"
     "horarios-y-televisiones-de-la-jornada-{N}"
@@ -58,18 +57,13 @@ Formato exacto:
 }
 
 Notas:
-- fecha: formato DD/MM/AAAA (si solo aparece día y mes, deduce el año de la temporada)
+- fecha: formato DD/MM/AAAA
 - hora: formato HH:MM en 24h
 - Copia los nombres de los equipos exactamente como aparecen en la imagen
 - El grupo aparece en el encabezado (ej: GRUPO 1 / J 01)
 """
 
-# ── Mapeo de nombres de imagen a IDs de Supabase ─────────────────────────────
-# Cuando la IA lee un nombre de la imagen, lo normalizamos para buscar en Supabase.
-# Añadir aquí variaciones conocidas.
-
 NOMBRE_A_ID = {
-    # Grupo 1
     "ad mérida": "merida",
     "arenas club": "arenas",
     "athletic club 'b'": "athleticb",
@@ -92,7 +86,6 @@ NOMBRE_A_ID = {
     "ud ourense": "ourense",
     "unionistas de salamanca cf": "unionistas",
     "zamora cf": "zamora",
-    # Grupo 2
     "águilas fc": "aguilas",
     "ad alcorcón": "alcorcon",
     "algeciras cf": "algeciras",
@@ -115,32 +108,25 @@ NOMBRE_A_ID = {
     "juventud de torremolinos cf": "torremolinos",
     'villarreal cf "b"': "villarreal",
     "villarreal cf b": "villarreal",
-    # Equipos de la 25/26 que ya no están en la 26/27
+    # Equipos 25/26 que no están en 26/27
     "ce sabadell fc": None,
     "cd eldense": None,
     "sd tarazona": None,
     "sevilla atlético": None,
     "betis deportivo balompié": None,
-    "antequera cf": "antequera",
     "atlético sanluqueño cf": None,
     "marbella fc": None,
     "rc celta fortuna": None,
-    "ad mérida": "merida",
     "ca osasuna \"b\"": None,
     "cf talavera de la reina": None,
     "cd arenteiro": None,
     "cd tenerife": None,
-    "athletic club \"b\"": "athleticb",
-    "real avilés industrial": "aviles",
 }
 
 
 def nombre_a_id(nombre: str) -> str | None:
-    """Convierte el nombre leído por la IA al ID de Supabase."""
     return NOMBRE_A_ID.get(nombre.lower().strip())
 
-
-# ── Paso 1: Obtener URL de la jornada ────────────────────────────────────────
 
 def url_jornada(numero: int) -> str:
     return URL_PATRON.replace("{N}", str(numero))
@@ -154,21 +140,26 @@ def pagina_existe(url: str) -> bool:
         return False
 
 
-# ── Paso 2: Extraer URLs de imágenes ─────────────────────────────────────────
-
 def extraer_urls_imagenes(url: str) -> list[str]:
     r = requests.get(url, headers=HEADERS, timeout=15)
     r.raise_for_status()
     html = r.text
 
-    patron = (
-        r'<img[^>]+src="(https://rfef\.es/sites/default/files/'
-        r'(?!styles/large/public/theme|sponsors)[^"]+\.'
-        r'(?:jpeg|jpg|png|webp)[^"]*)"'
-    )
+    # DEBUG — ver todas las URLs con /sites/default/files/
+    todas = re.findall(r'https://rfef\.es/sites/default/files/[^\s"\'<>]+', html)
+    print(f"  [DEBUG] URLs /sites/default/files/ encontradas: {len(todas)}")
+    for u in todas[:15]:
+        print(f"    {u}")
+
+    # Patrón amplio para encontrar imágenes
+    patron = r'https://rfef\.es/sites/default/files/[^\s"\'<>]+\.(?:jpeg|jpg|png|webp)'
     urls = re.findall(patron, html, re.IGNORECASE)
 
-    # Eliminar duplicados manteniendo orden
+    # Filtrar logos y UI
+    excluir = ['theme/', 'sponsors/', 'ico/', 'header-logo', 'styles/large/public/theme']
+    urls = [u for u in urls if not any(x in u for x in excluir)]
+
+    # Eliminar duplicados
     vistas = set()
     resultado = []
     for u in urls:
@@ -179,10 +170,7 @@ def extraer_urls_imagenes(url: str) -> list[str]:
     return resultado
 
 
-# ── Paso 3: Claude Vision ─────────────────────────────────────────────────────
-
 def imagen_a_partidos(url_imagen: str) -> dict:
-    """Descarga una imagen y extrae los partidos con Claude Vision."""
     contenido = requests.get(url_imagen, headers=HEADERS, timeout=20).content
 
     mime = "image/jpeg"
@@ -216,13 +204,7 @@ def imagen_a_partidos(url_imagen: str) -> dict:
     return json.loads(texto)
 
 
-# ── Paso 4: UPSERT en Supabase ────────────────────────────────────────────────
-
 def upsert_supabase(partidos_extraidos: list[dict]) -> None:
-    """
-    Recibe lista de partidos extraídos y actualiza Supabase.
-    Cada item tiene: { jornada, fecha, hora, local_id, visitante_id }
-    """
     SUPABASE_URL = os.environ["SUPABASE_URL"]
     SUPABASE_KEY = os.environ["SUPABASE_ANON_KEY"]
 
@@ -234,7 +216,6 @@ def upsert_supabase(partidos_extraidos: list[dict]) -> None:
     }
 
     for p in partidos_extraidos:
-        # El ID del partido sigue el mismo patrón que ya tienes en Supabase
         partido_id = f"j{p['jornada']:02d}-{p['local_id']}-{p['visitante_id']}"
 
         payload = {
@@ -242,8 +223,8 @@ def upsert_supabase(partidos_extraidos: list[dict]) -> None:
             "jornada": p["jornada"],
             "equipo_local_id": p["local_id"],
             "equipo_visitante_id": p["visitante_id"],
-            "fecha": p["fecha"],      # formato YYYY-MM-DD
-            "hora": p["hora"] + ":00",  # formato HH:MM:00
+            "fecha": p["fecha"],
+            "hora": p["hora"] + ":00",
             "confirmado": True,
         }
 
@@ -259,21 +240,16 @@ def upsert_supabase(partidos_extraidos: list[dict]) -> None:
             print(f"  ✗ Error {r.status_code}: {r.text}")
 
 
-# ── Utilidades ────────────────────────────────────────────────────────────────
-
 def fecha_iso(fecha_str: str) -> str:
-    """Convierte DD/MM/AAAA a YYYY-MM-DD."""
     d, m, a = fecha_str.strip().split("/")
     return f"{a}-{m.zfill(2)}-{d.zfill(2)}"
 
 
-# ── Main ──────────────────────────────────────────────────────────────────────
-
 def main():
     parser = argparse.ArgumentParser(description="Scraper horarios 1ª RFEF")
-    parser.add_argument("--jornada", type=int, required=True, help="Número de jornada")
-    parser.add_argument("--url", type=str, help="URL manual (opcional)")
-    parser.add_argument("--dry-run", action="store_true", help="Solo mostrar, no escribir en Supabase")
+    parser.add_argument("--jornada", type=int, required=True)
+    parser.add_argument("--url", type=str)
+    parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
     url = args.url or url_jornada(args.jornada)
@@ -285,7 +261,7 @@ def main():
         sys.exit(0)
 
     print("✓ Página encontrada. Extrayendo imágenes...")
-    urls_imagenes = extraer_urls_imagenes(url)
+    urls_imagenes = extraer_urls_imagenes(args.url or url_jornada(args.jornada))
     print(f"  → {len(urls_imagenes)} imagen(es) encontrada(s)")
 
     todos_partidos = []
@@ -303,10 +279,10 @@ def main():
                 visitante_id = nombre_a_id(p["visitante"])
 
                 if local_id is None:
-                    print(f"  ⚠️  Equipo no encontrado en 26/27: '{p['local']}' → ignorado")
+                    print(f"  ⚠️  No encontrado en 26/27: '{p['local']}' → ignorado")
                     continue
                 if visitante_id is None:
-                    print(f"  ⚠️  Equipo no encontrado en 26/27: '{p['visitante']}' → ignorado")
+                    print(f"  ⚠️  No encontrado en 26/27: '{p['visitante']}' → ignorado")
                     continue
 
                 todos_partidos.append({
@@ -318,12 +294,12 @@ def main():
                 })
 
         except Exception as e:
-            print(f"  ✗ Error procesando imagen: {e}")
+            print(f"  ✗ Error: {e}")
 
     print(f"\n→ {len(todos_partidos)} partidos listos para Supabase")
 
     if args.dry_run:
-        print("\n[DRY RUN] No se escribe en Supabase. Datos:")
+        print("\n[DRY RUN] Datos extraídos:")
         for p in todos_partidos:
             print(f"  j{p['jornada']} {p['fecha']} {p['hora']} | {p['local_id']} vs {p['visitante_id']}")
     else:
