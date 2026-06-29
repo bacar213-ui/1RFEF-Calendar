@@ -173,7 +173,7 @@ def imagen_a_partidos_gemini(url_imagen: str) -> dict:
     GEMINI_KEY = os.environ["GEMINI_API_KEY"]
     url_api = (
         f"https://generativelanguage.googleapis.com/v1beta/models/"
-        f"gemini-1.5-flash:generateContent?key={GEMINI_KEY}"
+        f"gemini-2.5-flash:generateContent?key={GEMINI_KEY}"
     )
 
     payload = {
