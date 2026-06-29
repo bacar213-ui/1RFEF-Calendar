@@ -142,7 +142,7 @@ def extraer_urls_imagenes(url: str) -> list:
     r.raise_for_status()
     html = r.text
 
-    patron = r'https://rfef\.es/sites/default/files/[^\s"\'<>]+\.(?:jpeg|jpg|png|webp)'
+    patron = r'https://rfef\.es/sites/default/files/(?!styles/)[^\s"\'<>]+\.(?:jpeg|jpg|png|webp)'
     urls = re.findall(patron, html, re.IGNORECASE)
 
     excluir = ['theme/', 'sponsors/', 'ico/', 'header-logo']
