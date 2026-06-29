@@ -1,12 +1,10 @@
 name: Scraper Horarios 1ª RFEF
 
 on:
-  # Ejecutar dos veces al día
   schedule:
-    - cron: '0 8 * * *'   # 08:00 UTC = 10:00 Madrid
-    - cron: '0 20 * * *'  # 20:00 UTC = 22:00 Madrid
+    - cron: '0 8 * * *'
+    - cron: '0 20 * * *'
 
-  # Lanzar manualmente desde GitHub con parámetros
   workflow_dispatch:
     inputs:
       jornada:
@@ -35,23 +33,23 @@ jobs:
           python-version: '3.12'
 
       - name: Instalar dependencias
-        run: pip install requests anthropic
+        run: pip install requests
 
       - name: Ejecutar scraper
         working-directory: scraper
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
           ARGS="--jornada ${{ github.event.inputs.jornada || '1' }}"
-          
+
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
             ARGS="$ARGS --dry-run"
           fi
-          
+
           if [ -n "${{ github.event.inputs.url_manual }}" ]; then
             ARGS="$ARGS --url ${{ github.event.inputs.url_manual }}"
           fi
-          
+
           python scraper.py $ARGS
