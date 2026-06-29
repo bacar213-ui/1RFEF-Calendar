@@ -284,7 +284,7 @@ export default function Home() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 8 }}>
                       <a href={googleUrl} target="_blank" rel="noreferrer"
                         style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', border: '1px solid #e5e5e5', borderRadius: 8, textDecoration: 'none', color: '#222' }}>
-                        <span style={{ fontSize: 20 }}>📅</span>
+                        <img src="/google.png" width="20" height="20" style={{ objectFit: 'contain' }} />
                         <div>
                           <div style={{ fontSize: 13, fontWeight: 500 }}>Google Calendar</div>
                           <div style={{ fontSize: 11, color: '#888' }}>Android · Web</div>
@@ -292,7 +292,7 @@ export default function Home() {
                       </a>
                       <a href={webcalUrl}
                         style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', border: '1px solid #e5e5e5', borderRadius: 8, textDecoration: 'none', color: '#222' }}>
-                        <span style={{ fontSize: 20 }}>🍎</span>
+                        <img src="/apple.png" width="20" height="20" style={{ objectFit: 'contain' }} />
                         <div>
                           <div style={{ fontSize: 13, fontWeight: 500 }}>Apple Calendario</div>
                           <div style={{ fontSize: 11, color: '#888' }}>iOS · macOS</div>
