@@ -59,7 +59,7 @@ export default function Home() {
   const [grupo, setGrupo] = useState(null);
   const [seleccionado, setSeleccionado] = useState(null);
   const [copiado, setCopiado] = useState(false);
-  const [webAbierto, setWebAbierto] = useState(true);
+  const [webAbierto, setWebAbierto] = useState(false);
   const [movilAbierto, setMovilAbierto] = useState(false);
 
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
