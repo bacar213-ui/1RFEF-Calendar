@@ -16,7 +16,10 @@ on:
         type: boolean
         default: false
       url_manual:
-        description: 'URL manual (opcional, para pruebas)'
+        description: 'URL de la página (opcional)'
+        required: false
+      imagenes_manual:
+        description: 'URLs de imágenes separadas por coma (opcional)'
         required: false
 
 jobs:
@@ -50,6 +53,10 @@ jobs:
 
           if [ -n "${{ github.event.inputs.url_manual }}" ]; then
             ARGS="$ARGS --url ${{ github.event.inputs.url_manual }}"
+          fi
+
+          if [ -n "${{ github.event.inputs.imagenes_manual }}" ]; then
+            ARGS="$ARGS --imagenes '${{ github.event.inputs.imagenes_manual }}'"
           fi
 
           python scraper.py $ARGS
