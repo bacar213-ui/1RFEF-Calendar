@@ -2,8 +2,7 @@ name: Scraper Horarios 1ª RFEF
 
 on:
   schedule:
-    - cron: '0 8 * * *'
-    - cron: '0 20 * * *'
+    - cron: '*/15 7-21 * * *'
 
   workflow_dispatch:
     inputs:
