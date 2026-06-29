@@ -30,6 +30,8 @@ export default async function handler(req, res) {
   const equiposMap = {};
   todosEquipos.forEach(e => { equiposMap[e.id] = e; });
 
+  const grupo = equipoData.grupo || 'Grupo ?';
+
   const eventos = partidos.map(partido => {
     const local = equiposMap[partido.equipo_local_id];
     const visitante = equiposMap[partido.equipo_visitante_id];
@@ -42,17 +44,20 @@ export default async function handler(req, res) {
     const dtEnd = formatIcal(fecha, parseInt(h) + 2, parseInt(m));
     const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(local.estadio + ', ' + local.ciudad)}`;
 
+    const confirmado = partido.confirmado ? '' : '⚠️ Horario provisional\\n';
+
     const descripcion = [
+      confirmado,
       `${local.nombre} - ${visitante.nombre}`,
       `Jornada ${partido.jornada} - Temporada 2026/27`,
-      `1\u00aa RFEF Grupo 2`,
+      `1ª RFEF ${grupo}`,
       `${local.estadio}\\, ${local.ciudad}`,
       mapsUrl
-    ].join('\\n');
+    ].filter(Boolean).join('\\n');
 
     const lines = [
       'BEGIN:VEVENT',
-      `UID:rfef1g2-j${partido.jornada}-${partido.equipo_local_id}-${partido.equipo_visitante_id}@rfef1grupo2`,
+      `UID:rfef1-${grupo.replace(' ','').toLowerCase()}-j${partido.jornada}-${partido.equipo_local_id}-${partido.equipo_visitante_id}@rfef1`,
       `DTSTART;TZID=Europe/Madrid:${dtStart}`,
       `DTEND;TZID=Europe/Madrid:${dtEnd}`,
       `SUMMARY:${local.nombre} - ${visitante.nombre}`,
@@ -67,10 +72,10 @@ export default async function handler(req, res) {
   const ical = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//RFEF1 Grupo2//ES',
+    'PRODID:-//RFEF 1ª Federación//ES',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
-    `X-WR-CALNAME:${equipoData.nombre} 1\u00aa RFEF 26/27`,
+    `X-WR-CALNAME:${equipoData.nombre} 1ª RFEF 26/27`,
     'X-WR-TIMEZONE:Europe/Madrid',
     'REFRESH-INTERVAL;VALUE=DURATION:PT6H',
     'X-PUBLISHED-TTL:PT6H',
