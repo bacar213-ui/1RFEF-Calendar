@@ -138,16 +138,20 @@ def pagina_existe(url: str) -> bool:
 
 
 def extraer_urls_imagenes(url: str) -> list:
+    """Intenta extraer automáticamente las URLs de imágenes del HTML."""
     r = requests.get(url, headers=HEADERS, timeout=15)
     r.raise_for_status()
     html = r.text
 
-    patron = r'https://rfef\.es/sites/default/files/(?!styles/)[^\s"\'<>]+\.(?:jpeg|jpg|png|webp)'
+    # Buscar cualquier URL de imagen en el HTML, incluyendo data-src
+    patron = r'(?:src|data-src|href)=["\']?(https://rfef\.es/sites/default/files/[^\s"\'<>?]+\.(?:jpeg|jpg|png|webp))'
     urls = re.findall(patron, html, re.IGNORECASE)
 
-    excluir = ['theme/', 'sponsors/', 'ico/', 'header-logo']
+    # Excluir imágenes de UI y portada genérica
+    excluir = ['theme/', 'sponsors/', 'ico/', 'header-logo', 'jornada_0']
     urls = [u for u in urls if not any(x in u for x in excluir)]
 
+    # Eliminar duplicados
     vistas = set()
     resultado = []
     for u in urls:
@@ -246,7 +250,8 @@ def fecha_iso(fecha_str: str) -> str:
 def main():
     parser = argparse.ArgumentParser(description="Scraper horarios 1ª RFEF")
     parser.add_argument("--jornada", type=int, required=True)
-    parser.add_argument("--url", type=str)
+    parser.add_argument("--url", type=str, help="URL de la página de horarios")
+    parser.add_argument("--imagenes", type=str, help="URLs de imágenes separadas por coma")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -259,8 +264,18 @@ def main():
         sys.exit(0)
 
     print("✓ Página encontrada. Extrayendo imágenes...")
-    urls_imagenes = extraer_urls_imagenes(url)
-    print(f"  → {len(urls_imagenes)} imagen(es) encontrada(s)")
+
+    # Si se pasan imágenes manualmente, usarlas directamente
+    if args.imagenes:
+        urls_imagenes = [u.strip() for u in args.imagenes.split(",")]
+        print(f"  → Usando {len(urls_imagenes)} imagen(es) manual(es)")
+    else:
+        urls_imagenes = extraer_urls_imagenes(url)
+        print(f"  → {len(urls_imagenes)} imagen(es) encontrada(s) automáticamente")
+
+    if not urls_imagenes:
+        print("❌ No se encontraron imágenes. Usa --imagenes para pasarlas manualmente.")
+        sys.exit(0)
 
     todos_partidos = []
 
