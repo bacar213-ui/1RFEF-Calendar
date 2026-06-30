@@ -349,9 +349,13 @@ export default function Home() {
             </div>
           </div>
 
-          <div style={{ background: '#f9f9f9', border: '1px solid #eee', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#555' }}>
-            ✓ Los horarios se actualizan automáticamente. Cuando la RFEF publique el horario oficial, aparecerá en tu calendario sin que tengas que hacer nada.
-          </div>
+          <div style={{ background: '#fff8e1', border: '1px solid #ffe082', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#555', marginBottom: 8 }}>
+  ⏳ <strong>¿No ves los partidos todavía?</strong> Es normal. Google Calendar y Apple Calendario pueden tardar hasta 24h en sincronizar por primera vez. Si el calendario ya aparece en tu lista de calendarios, los partidos llegarán solos.<br /><br />
+  Para comprobar que todo está correcto, pega tu enlace en el navegador y ábrelo con el <strong>Bloc de notas</strong> (Windows) o <strong>TextEdit</strong> (Mac). Si la primera línea pone <code>BEGIN:VCALENDAR</code>, la sincronización funcionará sin problemas.
+</div>
+<div style={{ background: '#f9f9f9', border: '1px solid #eee', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#555' }}>
+  ✓ Los horarios se actualizan automáticamente. Cuando la RFEF publique el horario oficial, aparecerá en tu calendario sin que tengas que hacer nada.
+</div>
 
         </div>
       )}
