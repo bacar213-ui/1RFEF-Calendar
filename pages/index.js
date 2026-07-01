@@ -102,7 +102,7 @@ export default function Home() {
           Tu equipo en tu calendario
         </h1>
         <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.65)', margin: 0, lineHeight: 1.6 }}>
-          Suscríbete a los partidos de tu equipo. Cuando cambien los horarios, tu calendario se actualiza solo.
+          Suscríbete a los partidos de tu equipo. Cuando se publiquen los horarios, tu calendario se actualizará automáticamente.
         </p>
       </div>
 
@@ -317,11 +317,26 @@ export default function Home() {
                 {movilAbierto && (
                   <div style={{ padding: '14px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}><img src="/google.png" width="14" height="14" style={{ objectFit: 'contain' }} /> Google Calendar (Android)</div>
-                    <Paso num="1" texto="Abre Chrome en tu móvil" />
-                    <Paso num="2" texto={<>Ve a <strong>calendar.google.com</strong></>} />
-                    <Paso num="3" texto={<>Pulsa los tres puntos (⋮) → <strong>Versión de escritorio</strong></>} />
-                    <Paso num="4" texto={<>Pulsa el icono de ajustes ⚙️ → <strong>Añadir calendario</strong> → <strong>Desde URL</strong></>} />
-                    <Paso num="5" texto="Pega el enlace copiado en el paso 1 y pulsa Añadir calendario" />
+                    <Paso num="1" texto={
+                      <span style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+                        <span>Abre Chrome en tu móvil y ve a <strong>calendar.google.com</strong></span>
+                        <button onClick={copiar} style={{ background: '#fff', border: '1px solid #ccc', borderRadius: 6, padding: '3px 9px', fontSize: 11, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                          {copiado ? '✓ Copiado' : 'Copiar enlace'}
+                        </button>
+                      </span>
+                    } />
+                    <Paso num="2" texto={<>Pulsa el icono de ajustes ⚙️ → <strong>Configuración</strong> (Settings)</>} />
+                    <Paso num="3" texto={
+                      <>En el menú de la izquierda, busca <strong>Añadir calendario</strong> (Add calendar), selecciona la opción <strong>Desde URL</strong> (From URL) y pega el enlace del paso 1 (<span style={{ fontFamily: 'monospace', fontSize: 11, wordBreak: 'break-all' }}>{icalUrl}</span>)</>
+                    } />
+                    <Paso num="4" texto={
+                      <span>
+                        En la pantalla que se ha abierto, busca el campo <strong>"URL del calendario"</strong> y pega el enlace que copiaste en el paso 1. Cuando termine de crearse, aparecerá abajo el mensaje{' '}
+                        <span style={{ display: 'inline-block', background: '#1a1a1a', color: '#fff', borderRadius: 0, padding: '4px 10px', fontSize: 11, fontWeight: 500 }}>
+                          Calendario creado. Obteniendo eventos en segundo plano.
+                        </span>
+                      </span>
+                    } />
 
                     <div style={{ borderTop: '1px solid #f0f0f0', margin: '14px 0' }} />
 
