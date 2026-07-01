@@ -42,17 +42,12 @@ export default async function handler(req, res) {
     const [h, m] = hora.split(':');
     const dtStart = formatIcal(fecha, parseInt(h), parseInt(m));
     const dtEnd = formatIcal(fecha, parseInt(h) + 2, parseInt(m));
-    const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(local.estadio + ', ' + local.ciudad)}`;
-
     const confirmado = partido.confirmado ? '' : '⚠️ Horario provisional\\n';
 
     const descripcion = [
       confirmado,
-      `${local.nombre} - ${visitante.nombre}`,
       `Jornada ${partido.jornada} - Temporada 2026/27`,
       `1ª RFEF ${grupo}`,
-      `${local.estadio}\\, ${local.ciudad}`,
-      mapsUrl
     ].filter(Boolean).join('\\n');
 
     const lines = [
