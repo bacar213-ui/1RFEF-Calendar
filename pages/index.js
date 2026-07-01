@@ -74,6 +74,14 @@ export default function Home() {
     });
   };
 
+  const [copiadoGoogle, setCopiadoGoogle] = useState(false);
+  const copiarGoogle = () => {
+    navigator.clipboard.writeText('calendar.google.com').then(() => {
+      setCopiadoGoogle(true);
+      setTimeout(() => setCopiadoGoogle(false), 2000);
+    });
+  };
+
   const colorGrupo = grupo ? GRUPOS[grupo].color : '#1a1a2e';
   const color = grupo ? GRUPOS[grupo].color : '#1a1a2e';
 
@@ -320,8 +328,8 @@ export default function Home() {
                     <Paso num="1" texto={
                       <span style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
                         <span>Abre Chrome en tu móvil y ve a <strong>calendar.google.com</strong></span>
-                        <button onClick={copiar} style={{ background: '#fff', border: '1px solid #ccc', borderRadius: 6, padding: '3px 9px', fontSize: 11, cursor: 'pointer', whiteSpace: 'nowrap' }}>
-                          {copiado ? '✓ Copiado' : 'Copiar enlace'}
+                        <button onClick={copiarGoogle} style={{ background: '#fff', border: '1px solid #ccc', borderRadius: 6, padding: '3px 9px', fontSize: 11, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                          {copiadoGoogle ? '✓ Copiado' : 'Copiar'}
                         </button>
                       </span>
                     } />
@@ -331,7 +339,11 @@ export default function Home() {
                     } />
                     <Paso num="4" texto={
                       <span>
-                        En la pantalla que se ha abierto, busca el campo <strong>"URL del calendario"</strong> y pega el enlace que copiaste en el paso 1. Cuando termine de crearse, aparecerá abajo el mensaje{' '}
+                        Presiona el botón azul{' '}
+                        <span style={{ display: 'inline-block', background: '#1a73e8', color: '#fff', borderRadius: 20, padding: '4px 14px', fontSize: 12, fontWeight: 600, verticalAlign: 'middle' }}>
+                          Añadir calendario
+                        </span>{' '}
+                        y espera unos segundos, se pondrá de color gris. Cuando termine de crearse, aparecerá abajo el mensaje{' '}
                         <span style={{ display: 'inline-block', background: '#1a1a1a', color: '#fff', borderRadius: 0, padding: '4px 10px', fontSize: 11, fontWeight: 500 }}>
                           Calendario creado. Obteniendo eventos en segundo plano.
                         </span>
@@ -357,9 +369,16 @@ export default function Home() {
           <div style={{ display: 'flex', gap: 14, marginBottom: '1.5rem', alignItems: 'flex-start' }}>
             <div style={{ width: 28, height: 28, borderRadius: '50%', background: color, color: '#fff', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>3</div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: '#111', marginBottom: 4 }}>Pega la URL en el campo correspondiente</div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#111', marginBottom: 4 }}>Presiona Añadir calendario</div>
               <div style={{ fontSize: 13, color: '#666', lineHeight: 1.6 }}>
-                En la pantalla que se ha abierto, busca el campo <strong>"URL del calendario"</strong> y pega el enlace que copiaste en el paso 1.
+                Presiona el botón azul{' '}
+                <span style={{ display: 'inline-block', background: '#1a73e8', color: '#fff', borderRadius: 20, padding: '4px 14px', fontSize: 12, fontWeight: 600, verticalAlign: 'middle' }}>
+                  Añadir calendario
+                </span>{' '}
+                y espera unos segundos, se pondrá de color gris. Cuando termine de crearse, aparecerá abajo el mensaje{' '}
+                <span style={{ display: 'inline-block', background: '#1a1a1a', color: '#fff', borderRadius: 0, padding: '4px 10px', fontSize: 11, fontWeight: 500 }}>
+                  Calendario creado. Obteniendo eventos en segundo plano.
+                </span>
               </div>
             </div>
           </div>
