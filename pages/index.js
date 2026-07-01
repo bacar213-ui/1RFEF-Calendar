@@ -334,7 +334,7 @@ export default function Home() {
                 </div>
                 {movilAbierto && (
                   <div style={{ padding: '14px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}><img src="/google.png" width="14" height="14" style={{ objectFit: 'contain' }} /> Google Calendar (Android)</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}><img src="/google.png" width="14" height="14" style={{ objectFit: 'contain' }} /> Google Calendar</div>
                     <Paso num="1" texto={
                       <span style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
                         <span>Abre Chrome en tu móvil y ve a <strong>calendar.google.com</strong></span>
@@ -362,7 +362,7 @@ export default function Home() {
 
                     <div style={{ borderTop: '1px solid #f0f0f0', margin: '14px 0' }} />
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}><img src="/apple.png" width="14" height="14" style={{ objectFit: 'contain' }} /> Apple Calendario (iPhone)</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}><img src="/apple.png" width="14" height="14" style={{ objectFit: 'contain' }} /> Apple Calendario</div>
                     <Paso num="1" texto="Abre Safari en tu iPhone" />
                     <Paso num="2" texto="Pega el enlace copiado directamente en la barra de direcciones" />
                     <Paso num="3" texto={<>Safari te preguntará si quieres suscribirte → pulsa <strong>Suscribirse</strong></>} />
@@ -370,7 +370,7 @@ export default function Home() {
 
                     <div style={{ borderTop: '1px solid #f0f0f0', margin: '14px 0' }} />
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}><img src="/outlook.png" width="14" height="14" style={{ objectFit: 'contain' }} /> Outlook (móvil)</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}><img src="/outlook.png" width="14" height="14" style={{ objectFit: 'contain' }} /> Outlook</div>
                     <Paso num="1" texto="Abre la app de Outlook en tu móvil" />
                     <Paso num="2" texto={<>Pulsa tu foto o icono de perfil (arriba a la izquierda) → <strong>Añadir cuenta</strong> → <strong>Suscribirse desde web</strong></>} />
                     <Paso num="3" texto="Pega el enlace copiado en el paso 1 en el campo de la URL" />
