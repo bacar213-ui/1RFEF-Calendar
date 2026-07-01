@@ -339,7 +339,7 @@ export default function Home() {
                     } />
                     <Paso num="4" texto={
                       <span>
-                        Presiona el botón azul{' '}
+                        Pega el enlace del paso 1, presiona el botón{' '}
                         <span style={{ display: 'inline-block', background: '#1a73e8', color: '#fff', borderRadius: 20, padding: '4px 14px', fontSize: 12, fontWeight: 600, verticalAlign: 'middle' }}>
                           Añadir calendario
                         </span>{' '}
