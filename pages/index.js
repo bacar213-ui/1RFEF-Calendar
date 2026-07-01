@@ -363,25 +363,6 @@ export default function Home() {
             </div>
           </div>
 
-          <div style={{ borderLeft: '2px dashed #e5e5e5', marginLeft: 13, height: 16, marginBottom: '1.25rem' }} />
-
-          {/* Paso 3 */}
-          <div style={{ display: 'flex', gap: 14, marginBottom: '1.5rem', alignItems: 'flex-start' }}>
-            <div style={{ width: 28, height: 28, borderRadius: '50%', background: color, color: '#fff', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>3</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: '#111', marginBottom: 4 }}>Presiona Añadir calendario</div>
-              <div style={{ fontSize: 13, color: '#666', lineHeight: 1.6 }}>
-                Presiona el botón azul{' '}
-                <span style={{ display: 'inline-block', background: '#1a73e8', color: '#fff', borderRadius: 20, padding: '4px 14px', fontSize: 12, fontWeight: 600, verticalAlign: 'middle' }}>
-                  Añadir calendario
-                </span>{' '}
-                y espera unos segundos, se pondrá de color gris. Cuando termine de crearse, aparecerá abajo el mensaje{' '}
-                <span style={{ display: 'inline-block', background: '#1a1a1a', color: '#fff', borderRadius: 0, padding: '4px 10px', fontSize: 11, fontWeight: 500 }}>
-                  Calendario creado. Obteniendo eventos en segundo plano.
-                </span>
-              </div>
-            </div>
-          </div>
 
           <div style={{ background: '#fff8e1', border: '1px solid #ffe082', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#555', marginBottom: 8 }}>
   ⏳ <strong>¿No ves los partidos todavía?</strong> Es normal. Google Calendar y Apple Calendario pueden tardar hasta 24h en sincronizar por primera vez. Si el calendario ya aparece en tu lista de calendarios, los partidos llegarán solos.<br /><br />
