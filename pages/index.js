@@ -66,6 +66,7 @@ export default function Home() {
   const icalUrl = seleccionado ? `${baseUrl}/api/ical/${seleccionado.id}` : '';
   const webcalUrl = icalUrl.replace('https://', 'webcal://').replace('http://', 'webcal://');
   const googleUrl = `https://calendar.google.com/calendar/r/settings/addbyurl?url=${encodeURIComponent(icalUrl)}`;
+  const outlookUrl = `https://outlook.live.com/calendar/0/addfromweb?url=${encodeURIComponent(icalUrl)}&name=${encodeURIComponent(seleccionado ? seleccionado.nombre + ' 1ª RFEF' : '')}`;
 
   const copiar = () => {
     navigator.clipboard.writeText(icalUrl).then(() => {
@@ -289,6 +290,7 @@ export default function Home() {
                 </div>
                 {webAbierto && (
                   <div style={{ padding: '14px' }}>
+                    <div style={{ fontSize: 13, color: '#666', marginBottom: 10 }}>Pega el enlace en tu servicio de calendario preferido:</div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 8 }}>
                       <a href={googleUrl} target="_blank" rel="noreferrer"
                         style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', border: '1px solid #e5e5e5', borderRadius: 8, textDecoration: 'none', color: '#222' }}>
@@ -304,6 +306,14 @@ export default function Home() {
                         <div>
                           <div style={{ fontSize: 13, fontWeight: 500 }}>Apple Calendario</div>
                           <div style={{ fontSize: 11, color: '#888' }}>iOS · macOS</div>
+                        </div>
+                      </a>
+                      <a href={outlookUrl} target="_blank" rel="noreferrer"
+                        style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', border: '1px solid #e5e5e5', borderRadius: 8, textDecoration: 'none', color: '#222' }}>
+                        <img src="/outlook.png" width="20" height="20" style={{ objectFit: 'contain' }} />
+                        <div>
+                          <div style={{ fontSize: 13, fontWeight: 500 }}>Outlook</div>
+                          <div style={{ fontSize: 11, color: '#888' }}>Web · Escritorio</div>
                         </div>
                       </a>
                     </div>
@@ -339,7 +349,7 @@ export default function Home() {
                     } />
                     <Paso num="4" texto={
                       <span>
-                        Pega el enlace del paso 1, presiona el botón{' '}
+                        Presiona el botón azul{' '}
                         <span style={{ display: 'inline-block', background: '#1a73e8', color: '#fff', borderRadius: 20, padding: '4px 14px', fontSize: 12, fontWeight: 600, verticalAlign: 'middle' }}>
                           Añadir calendario
                         </span>{' '}
@@ -357,12 +367,19 @@ export default function Home() {
                     <Paso num="2" texto="Pega el enlace copiado directamente en la barra de direcciones" />
                     <Paso num="3" texto={<>Safari te preguntará si quieres suscribirte → pulsa <strong>Suscribirse</strong></>} />
                     <Paso num="4" texto="Los partidos aparecerán al instante en tu app Calendario" />
+
+                    <div style={{ borderTop: '1px solid #f0f0f0', margin: '14px 0' }} />
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#555', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}><img src="/outlook.png" width="14" height="14" style={{ objectFit: 'contain' }} /> Outlook (móvil)</div>
+                    <Paso num="1" texto="Abre la app de Outlook en tu móvil" />
+                    <Paso num="2" texto={<>Pulsa tu foto o icono de perfil (arriba a la izquierda) → <strong>Añadir cuenta</strong> → <strong>Suscribirse desde web</strong></>} />
+                    <Paso num="3" texto="Pega el enlace copiado en el paso 1 en el campo de la URL" />
+                    <Paso num="4" texto={<>Ponle un nombre (opcional) y pulsa <strong>Guardar</strong>. Los partidos aparecerán en tu calendario de Outlook</>} />
                   </div>
                 )}
               </div>
             </div>
           </div>
-
 
           <div style={{ background: '#fff8e1', border: '1px solid #ffe082', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#555', marginBottom: 8 }}>
   ⏳ <strong>¿No ves los partidos todavía?</strong> Es normal. Google Calendar y Apple Calendario pueden tardar hasta 24h en sincronizar por primera vez. Si el calendario ya aparece en tu lista de calendarios, los partidos llegarán solos.<br /><br />
