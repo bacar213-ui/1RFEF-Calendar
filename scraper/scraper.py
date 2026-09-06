@@ -206,8 +206,9 @@ def imagen_a_partidos_gemini(url_imagen: str) -> dict:
     return json.loads(texto)
 
 
-def obtener_siguiente_jornada() -> int:
-    """Consulta Supabase y devuelve la jornada siguiente a la última ya guardada."""
+def obtener_siguiente_jornada():
+    """Devuelve la primera jornada que todavía tenga partidos sin confirmar
+    (confirmado = false). Si todas las jornadas ya están confirmadas, devuelve None."""
     SUPABASE_URL = os.environ["SUPABASE_URL"].strip().rstrip("/")
     SUPABASE_KEY = os.environ["SUPABASE_ANON_KEY"].strip()
 
@@ -216,7 +217,8 @@ def obtener_siguiente_jornada() -> int:
         "Authorization": f"Bearer {SUPABASE_KEY}",
     }
     r = requests.get(
-        f"{SUPABASE_URL}/rest/v1/partidos?select=jornada&order=jornada.desc&limit=1",
+        f"{SUPABASE_URL}/rest/v1/partidos"
+        f"?select=jornada&confirmado=eq.false&order=jornada.asc&limit=1",
         headers=headers,
         timeout=15,
     )
@@ -224,8 +226,8 @@ def obtener_siguiente_jornada() -> int:
     datos = r.json()
 
     if not datos:
-        return 1
-    return datos[0]["jornada"] + 1
+        return None
+    return datos[0]["jornada"]
 
 
 def upsert_supabase(partidos_extraidos: list) -> None:
@@ -280,6 +282,9 @@ def main():
     jornada_objetivo = args.jornada
     if jornada_objetivo is None:
         jornada_objetivo = obtener_siguiente_jornada()
+        if jornada_objetivo is None:
+            print("✓ Todas las jornadas ya están confirmadas. Nada que hacer.")
+            sys.exit(0)
         print(f"→ No se especificó --jornada, autodetectada a partir de Supabase: {jornada_objetivo}")
 
     url = args.url or url_jornada(jornada_objetivo)
