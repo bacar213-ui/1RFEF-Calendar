@@ -174,7 +174,7 @@ def imagen_a_partidos_gemini(url_imagen: str) -> dict:
 
     imagen_b64 = base64.standard_b64encode(contenido).decode()
 
-    GEMINI_KEY = os.environ["GEMINI_API_KEY"]
+    GEMINI_KEY = os.environ["GEMINI_API_KEY"].strip()
     url_api = (
         f"https://generativelanguage.googleapis.com/v1beta/models/"
         f"gemini-2.5-flash:generateContent?key={GEMINI_KEY}"
@@ -208,8 +208,8 @@ def imagen_a_partidos_gemini(url_imagen: str) -> dict:
 
 def obtener_siguiente_jornada() -> int:
     """Consulta Supabase y devuelve la jornada siguiente a la última ya guardada."""
-    SUPABASE_URL = os.environ["SUPABASE_URL"]
-    SUPABASE_KEY = os.environ["SUPABASE_ANON_KEY"]
+    SUPABASE_URL = os.environ["SUPABASE_URL"].strip().rstrip("/")
+    SUPABASE_KEY = os.environ["SUPABASE_ANON_KEY"].strip()
 
     headers = {
         "apikey": SUPABASE_KEY,
@@ -229,8 +229,8 @@ def obtener_siguiente_jornada() -> int:
 
 
 def upsert_supabase(partidos_extraidos: list) -> None:
-    SUPABASE_URL = os.environ["SUPABASE_URL"]
-    SUPABASE_KEY = os.environ["SUPABASE_ANON_KEY"]
+    SUPABASE_URL = os.environ["SUPABASE_URL"].strip().rstrip("/")
+    SUPABASE_KEY = os.environ["SUPABASE_ANON_KEY"].strip()
 
     headers = {
         "apikey": SUPABASE_KEY,
