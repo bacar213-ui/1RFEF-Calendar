@@ -36,6 +36,20 @@ jobs:
       - name: Instalar dependencias
         run: pip install requests
 
+      - name: Verificar secretos (sin mostrar su valor)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          echo "Longitud SUPABASE_URL: ${#SUPABASE_URL}"
+          echo "Longitud SUPABASE_ANON_KEY: ${#SUPABASE_ANON_KEY}"
+          echo "Longitud GEMINI_API_KEY: ${#GEMINI_API_KEY}"
+          case "$SUPABASE_URL" in
+            https://*.supabase.co) echo "SUPABASE_URL: formato correcto" ;;
+            *) echo "⚠️  SUPABASE_URL: formato INESPERADO (¿vacío o mal copiado?)" ;;
+          esac
+
       - name: Ejecutar scraper
         working-directory: scraper
         env:
