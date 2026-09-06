@@ -7,9 +7,8 @@ on:
   workflow_dispatch:
     inputs:
       jornada:
-        description: 'Número de jornada'
-        required: true
-        default: '1'
+        description: 'Número de jornada (déjalo vacío para autodetectar)'
+        required: false
       dry_run:
         description: 'Solo mostrar, no escribir en Supabase'
         type: boolean
@@ -44,7 +43,11 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          ARGS="--jornada ${{ github.event.inputs.jornada || '1' }}"
+          if [ -n "${{ github.event.inputs.jornada }}" ]; then
+            ARGS="--jornada ${{ github.event.inputs.jornada }}"
+          else
+            ARGS=""
+          fi
 
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
             ARGS="$ARGS --dry-run"
