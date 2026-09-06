@@ -17,7 +17,7 @@ import requests
 URL_PATRON = (
     "https://rfef.es/es/noticias/"
     "horarios-y-televisiones-de-la-jornada-{N}"
-    "-de-primera-federacion-versus-e-learning"
+    "-de-primera-federacion-temporada-202627"
 )
 
 HEADERS = {
@@ -148,7 +148,7 @@ def extraer_urls_imagenes(url: str) -> list:
     urls = re.findall(patron, html, re.IGNORECASE)
 
     # Excluir imágenes de UI y portada genérica
-    excluir = ['theme/', 'sponsors/', 'ico/', 'header-logo', 'jornada_0']
+    excluir = ['theme/', 'sponsors/', 'ico/', 'header-logo', 'jornada_0', 'noticias_listado', 'styles/']
     urls = [u for u in urls if not any(x in u for x in excluir)]
 
     # Eliminar duplicados
@@ -206,6 +206,28 @@ def imagen_a_partidos_gemini(url_imagen: str) -> dict:
     return json.loads(texto)
 
 
+def obtener_siguiente_jornada() -> int:
+    """Consulta Supabase y devuelve la jornada siguiente a la última ya guardada."""
+    SUPABASE_URL = os.environ["SUPABASE_URL"]
+    SUPABASE_KEY = os.environ["SUPABASE_ANON_KEY"]
+
+    headers = {
+        "apikey": SUPABASE_KEY,
+        "Authorization": f"Bearer {SUPABASE_KEY}",
+    }
+    r = requests.get(
+        f"{SUPABASE_URL}/rest/v1/partidos?select=jornada&order=jornada.desc&limit=1",
+        headers=headers,
+        timeout=15,
+    )
+    r.raise_for_status()
+    datos = r.json()
+
+    if not datos:
+        return 1
+    return datos[0]["jornada"] + 1
+
+
 def upsert_supabase(partidos_extraidos: list) -> None:
     SUPABASE_URL = os.environ["SUPABASE_URL"]
     SUPABASE_KEY = os.environ["SUPABASE_ANON_KEY"]
@@ -249,14 +271,19 @@ def fecha_iso(fecha_str: str) -> str:
 
 def main():
     parser = argparse.ArgumentParser(description="Scraper horarios 1ª RFEF")
-    parser.add_argument("--jornada", type=int, required=True)
+    parser.add_argument("--jornada", type=int, default=None, help="Si no se indica, se autodetecta a partir de Supabase")
     parser.add_argument("--url", type=str, help="URL de la página de horarios")
     parser.add_argument("--imagenes", type=str, help="URLs de imágenes separadas por coma")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
-    url = args.url or url_jornada(args.jornada)
-    print(f"\n=== Jornada {args.jornada} ===")
+    jornada_objetivo = args.jornada
+    if jornada_objetivo is None:
+        jornada_objetivo = obtener_siguiente_jornada()
+        print(f"→ No se especificó --jornada, autodetectada a partir de Supabase: {jornada_objetivo}")
+
+    url = args.url or url_jornada(jornada_objetivo)
+    print(f"\n=== Jornada {jornada_objetivo} ===")
     print(f"URL: {url}")
 
     if not pagina_existe(url):
@@ -284,7 +311,7 @@ def main():
         try:
             datos = imagen_a_partidos_gemini(url_img)
             grupo = datos.get("grupo", "?")
-            jornada = datos.get("jornada", args.jornada)
+            jornada = datos.get("jornada", jornada_objetivo)
             print(f"  → {grupo}: {len(datos.get('partidos', []))} partidos extraídos")
 
             for p in datos.get("partidos", []):
