@@ -43,10 +43,12 @@ export default async function handler(req, res) {
     const dtStart = formatIcal(fecha, parseInt(h), parseInt(m));
     const dtEnd = formatIcal(fecha, parseInt(h) + 2, parseInt(m));
     const confirmado = partido.confirmado ? '' : '⚠️ Horario provisional\\n';
+    const canalLinea = partido.canal ? `📺 ${partido.canal}` : '';
 
     const descripcion = [
       confirmado,
       `Jornada ${partido.jornada} - Temporada 2026/27`,
+      canalLinea,
       `1ª RFEF ${grupo}`,
     ].filter(Boolean).join('\\n');
 
