@@ -32,7 +32,24 @@ HEADERS = {
 
 PROMPT_VISION = """Eres un extractor de datos deportivos especializado en fútbol español.
 
-Analiza esta imagen que muestra el calendario de partidos de la 1ª RFEF (Primera Federación).
+Antes de esta instrucción te he mostrado varias imágenes de referencia, cada una con
+el nombre del canal de televisión al que corresponde. Son los logos que aparecen dentro
+de las etiquetas naranjas de "dónde ver el partido" en las imágenes de horarios de la RFEF.
+
+Analiza ahora la imagen del calendario de partidos de la 1ª RFEF (Primera Federación).
+Cada fila tiene, a la derecha, una etiqueta naranja que indica dónde se retransmite ese partido.
+
+Reglas para identificar el campo "canal" de cada partido:
+- Si la etiqueta solo dice "CANAL LINEAL" sin ningún logo adicional en la esquina → usa "Canal Lineal".
+- Si la etiqueta "CANAL LINEAL" lleva además un logo pequeño en la esquina que coincide con
+  alguna de las imágenes de referencia (Aragón TV, La 7, Esport3 o A Galega) → usa el nombre
+  de ese canal regional en vez de "Canal Lineal" (ejemplo: "Aragón TV").
+- Si aparece el logo de FootballClub y/o FanPlay TV → inclúyelos tal cual.
+- Un partido puede tener varios operadores a la vez: sepáralos por coma
+  (ejemplo: "FootballClub, FanPlay TV").
+- El color del logo (blanco o negro/oscuro) es solo una variante visual del mismo canal,
+  no afecta al nombre que debes usar.
+- Si no consigues identificar con seguridad el canal de un partido, deja el campo como "".
 
 Extrae TODOS los partidos visibles y devuelve ÚNICAMENTE un objeto JSON válido,
 sin texto adicional, sin markdown, sin bloques de código, sin explicaciones.
@@ -47,7 +64,8 @@ Formato exacto:
       "fecha": "29/08/2026",
       "hora": "21:30",
       "local": "nombre exacto del equipo local",
-      "visitante": "nombre exacto del equipo visitante"
+      "visitante": "nombre exacto del equipo visitante",
+      "canal": "Canal Lineal"
     }
   ]
 }
@@ -58,6 +76,20 @@ Notas:
 - Copia los nombres de los equipos exactamente como aparecen en la imagen
 - El grupo aparece en el encabezado (ej: GRUPO 1 / J 01)
 """
+
+LOGOS_REFERENCIA = [
+    ("footballclub_icono.png", "FootballClub"),
+    ("footballclub_texto.png", "FootballClub"),
+    ("fanplay_tv.png", "FanPlay TV"),
+    ("a_galega_blanco.png", "A Galega"),
+    ("esport3_negro.png", "Esport3"),
+    ("aragon_tv_blanco.png", "Aragón TV"),
+    ("la7_negro.png", "La 7"),
+    ("aragon_tv_negro.png", "Aragón TV"),
+    ("esport3_blanco.png", "Esport3"),
+    ("a_galega_negro.png", "A Galega"),
+    ("canal_lineal.png", "Canal Lineal (sin logo adicional)"),
+]
 
 NOMBRE_A_ID = {
     "ad mérida": "merida",
@@ -138,16 +170,18 @@ def pagina_existe(url: str) -> bool:
 
 
 def extraer_urls_imagenes(url: str) -> list:
-    """Intenta extraer automáticamente las URLs de imágenes del HTML."""
+    """Intenta extraer automáticamente las URLs de imágenes del HTML.
+    No asume en qué atributo HTML está la URL (src, data-src, srcset, lazy-load
+    propietario, JSON embebido, etc.): busca el patrón de URL en cualquier parte
+    del documento para no depender de la plantilla exacta que use la RFEF."""
     r = requests.get(url, headers=HEADERS, timeout=15)
     r.raise_for_status()
     html = r.text
 
-    # Buscar cualquier URL de imagen en el HTML, incluyendo data-src
-    patron = r'(?:src|data-src|href)=["\']?(https://rfef\.es/sites/default/files/[^\s"\'<>?]+\.(?:jpeg|jpg|png|webp))'
+    patron = r'(https://rfef\.es/sites/default/files/[^\s"\'<>?)]+\.(?:jpeg|jpg|png|webp))'
     urls = re.findall(patron, html, re.IGNORECASE)
 
-    # Excluir imágenes de UI y portada genérica
+    # Excluir imágenes de UI, sponsors, miniaturas de "noticias relacionadas", etc.
     excluir = ['theme/', 'sponsors/', 'ico/', 'header-logo', 'jornada_0', 'noticias_listado', 'styles/']
     urls = [u for u in urls if not any(x in u for x in excluir)]
 
@@ -160,6 +194,23 @@ def extraer_urls_imagenes(url: str) -> list:
             resultado.append(u)
 
     return resultado
+
+
+def cargar_logos_referencia() -> list:
+    """Carga las imágenes de logos de canales (carpeta logos/) como partes
+    de referencia visual para que Gemini pueda reconocerlos en el calendario."""
+    directorio = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logos")
+    partes = []
+    for nombre_archivo, nombre_canal in LOGOS_REFERENCIA:
+        ruta = os.path.join(directorio, nombre_archivo)
+        if not os.path.exists(ruta):
+            continue
+        with open(ruta, "rb") as f:
+            contenido = f.read()
+        b64 = base64.standard_b64encode(contenido).decode()
+        partes.append({"text": f"Logo de referencia: {nombre_canal}"})
+        partes.append({"inline_data": {"mime_type": "image/png", "data": b64}})
+    return partes
 
 
 def imagen_a_partidos_gemini(url_imagen: str) -> dict:
@@ -180,17 +231,18 @@ def imagen_a_partidos_gemini(url_imagen: str) -> dict:
         f"gemini-2.5-flash:generateContent?key={GEMINI_KEY}"
     )
 
+    partes = cargar_logos_referencia()
+    partes.append({
+        "inline_data": {
+            "mime_type": mime,
+            "data": imagen_b64,
+        }
+    })
+    partes.append({"text": PROMPT_VISION})
+
     payload = {
         "contents": [{
-            "parts": [
-                {
-                    "inline_data": {
-                        "mime_type": mime,
-                        "data": imagen_b64,
-                    }
-                },
-                {"text": PROMPT_VISION}
-            ]
+            "parts": partes
         }],
         "generationConfig": {
             "temperature": 0,
@@ -252,6 +304,7 @@ def upsert_supabase(partidos_extraidos: list) -> None:
             "fecha": p["fecha"],
             "hora": p["hora"] + ":00",
             "confirmado": True,
+            "canal": p.get("canal"),
         }
 
         r = requests.post(
@@ -336,6 +389,7 @@ def main():
                     "hora": p["hora"],
                     "local_id": local_id,
                     "visitante_id": visitante_id,
+                    "canal": p.get("canal", "") or None,
                 })
 
         except Exception as e:
@@ -346,7 +400,7 @@ def main():
     if args.dry_run:
         print("\n[DRY RUN] Datos extraídos:")
         for p in todos_partidos:
-            print(f"  j{p['jornada']} {p['fecha']} {p['hora']} | {p['local_id']} vs {p['visitante_id']}")
+            print(f"  j{p['jornada']} {p['fecha']} {p['hora']} | {p['local_id']} vs {p['visitante_id']} | 📺 {p.get('canal') or '(sin identificar)'}")
     else:
         print("\nActualizando Supabase...")
         upsert_supabase(todos_partidos)
