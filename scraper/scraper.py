@@ -8,6 +8,7 @@ import os
 import re
 import sys
 import json
+import time
 import base64
 import argparse
 import requests
@@ -257,7 +258,16 @@ def imagen_a_partidos_gemini(url_imagen: str) -> dict:
         }
     }
 
-    r = requests.post(url_api, json=payload, timeout=30)
+    r = None
+    for intento in range(1, 4):
+        r = requests.post(url_api, json=payload, timeout=30)
+        if r.status_code in (429, 500, 502, 503, 504):
+            espera = 5 * intento  # 5s, 10s, 15s
+            print(f"  ⏳ Gemini devolvió {r.status_code} (intento {intento}/3), "
+                  f"reintentando en {espera}s...")
+            time.sleep(espera)
+            continue
+        break
     r.raise_for_status()
 
     texto = r.json()["candidates"][0]["content"]["parts"][0]["text"]
