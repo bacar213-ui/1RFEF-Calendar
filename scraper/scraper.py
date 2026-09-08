@@ -189,7 +189,7 @@ def extraer_urls_imagenes(url: str) -> list:
         urls.append(u)
 
     # Excluir imágenes de UI, sponsors, miniaturas de "noticias relacionadas", etc.
-    excluir = ['theme/', 'sponsors/', 'ico/', 'header-logo', 'jornada_0', 'noticias_listado', 'styles/']
+    excluir = ['theme/', 'sponsors/', 'ico/', 'header-logo', 'jornada_0', 'noticias_listado', 'styles/', 'menudespleg']
     urls = [u for u in urls if not any(x in u for x in excluir)]
 
     # Eliminar duplicados
@@ -253,7 +253,7 @@ def imagen_a_partidos_gemini(url_imagen: str) -> dict:
         }],
         "generationConfig": {
             "temperature": 0,
-            "maxOutputTokens": 2000,
+            "maxOutputTokens": 6000,
         }
     }
 
@@ -262,7 +262,12 @@ def imagen_a_partidos_gemini(url_imagen: str) -> dict:
 
     texto = r.json()["candidates"][0]["content"]["parts"][0]["text"]
     texto = texto.replace("```json", "").replace("```", "").strip()
-    return json.loads(texto)
+    try:
+        return json.loads(texto)
+    except json.JSONDecodeError as e:
+        print(f"  [debug] JSON inválido ({e}). Longitud del texto: {len(texto)} caracteres")
+        print(f"  [debug] Últimos 200 caracteres: {texto[-200:]!r}")
+        raise
 
 
 def obtener_siguiente_jornada():
