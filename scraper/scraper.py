@@ -178,6 +178,13 @@ def extraer_urls_imagenes(url: str) -> list:
     r.raise_for_status()
     html = r.text
 
+    print(f"  [debug] longitud HTML recibido: {len(html)} caracteres")
+    print(f"  [debug] contiene 'sites/default/files': {'sites/default/files' in html}")
+    print(f"  [debug] contiene 'jornada': {'jornada' in html.lower()}")
+    print(f"  [debug] contiene 'captcha'/'cloudflare'/'blocked': "
+          f"{'captcha' in html.lower() or 'cloudflare' in html.lower() or 'blocked' in html.lower() or 'acceso denegado' in html.lower()}")
+    print(f"  [debug] primeros 300 caracteres: {html[:300]!r}")
+
     patron = r'(https://rfef\.es/sites/default/files/[^\s"\'<>?)]+\.(?:jpeg|jpg|png|webp))'
     urls = re.findall(patron, html, re.IGNORECASE)
 
