@@ -178,15 +178,15 @@ def extraer_urls_imagenes(url: str) -> list:
     r.raise_for_status()
     html = r.text
 
-    print(f"  [debug] longitud HTML recibido: {len(html)} caracteres")
-    print(f"  [debug] contiene 'sites/default/files': {'sites/default/files' in html}")
-    print(f"  [debug] contiene 'jornada': {'jornada' in html.lower()}")
-    print(f"  [debug] contiene 'captcha'/'cloudflare'/'blocked': "
-          f"{'captcha' in html.lower() or 'cloudflare' in html.lower() or 'blocked' in html.lower() or 'acceso denegado' in html.lower()}")
-    print(f"  [debug] primeros 300 caracteres: {html[:300]!r}")
+    patron = r'((?:https?://rfef\.es)?/sites/default/files/[^\s"\'<>?)]+\.(?:jpeg|jpg|png|webp))'
+    urls_encontradas = re.findall(patron, html, re.IGNORECASE)
 
-    patron = r'(https://rfef\.es/sites/default/files/[^\s"\'<>?)]+\.(?:jpeg|jpg|png|webp))'
-    urls = re.findall(patron, html, re.IGNORECASE)
+    # Completar con el dominio si la URL vino como ruta relativa
+    urls = []
+    for u in urls_encontradas:
+        if u.startswith('/'):
+            u = 'https://rfef.es' + u
+        urls.append(u)
 
     # Excluir imágenes de UI, sponsors, miniaturas de "noticias relacionadas", etc.
     excluir = ['theme/', 'sponsors/', 'ico/', 'header-logo', 'jornada_0', 'noticias_listado', 'styles/']
